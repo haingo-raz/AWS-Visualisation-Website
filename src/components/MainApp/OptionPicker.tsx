@@ -1,39 +1,55 @@
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import './OptionPicker.scss';
 import { Box, InputLabel, MenuItem, FormControl, Select, SelectChangeEvent}  from '@mui/material';
+import Visualisation from './Visualisation'; //test
+import Prediction from './Prediction'; //test
 
 function OptionPicker() {
-
+    
     const [option, setOption] = useState('');
 
-    const handleChange = (event: SelectChangeEvent) => {
+    //let navigate = useNavigate();
+
+    //Interaction with the select input 
+    const handleChange = (event: SelectChangeEvent) => { 
         setOption(event.target.value as string);
+        
+        //navigate(`${option}`);
+        //setOption('');
     };
 
     const optionsList = [
         {
             name: 'Los Angeles Lakers', 
-            value: 'lakers'
+            value: 'lakers',
+            path: '/lakers'
         },
         {
             name: 'Chicago Bulls', 
-            value: 'bulls'
+            value: 'bulls', 
+            path: '/bulls'
         },
         {
             name: 'Houston Rockets',
-            value: 'rockets'
+            value: 'rockets',
+            path: '/rockets'
         },
         {
             name: 'Golden State Warriors',
-            value: 'warriors'
+            value: 'warriors', 
+            path: '/warriors'
         },
         {
             name: 'Boston Celtics',
-            value: 'celtics'
+            value: 'celtics', 
+            path: '/celtics'
+            
         },
         {
             name: 'All teams',
-            value: 'allTeams'
+            value: 'allTeams', 
+            path: '/'
         }
     ]
 
@@ -47,12 +63,18 @@ function OptionPicker() {
                     value={option}
                     onChange={handleChange}
                 >
+                   
                 {
-                    optionsList.map((item, key) => 
-                        <MenuItem value={item.value}>{item.name}</MenuItem>
+                    optionsList.map((item) => 
+                        <MenuItem 
+                            component={Link}
+                            to={item.path}
+                        >
+                            {item.name}
+                        </MenuItem>
                     )
                 }
-                </Select>
+                </Select> 
             </FormControl>
         </div>
     );

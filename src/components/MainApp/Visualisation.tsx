@@ -3,8 +3,12 @@ import './Visualisation.scss';
 
 function Visualisation() {
     return (
-        <div>
-            
+        <div className='visualisation'>
+            <h1 className='title'>Visualisation</h1>
+            {/* Graph */}
+            <div className="graphSection">
+                hu
+            </div>      
         </div>
     );
 }

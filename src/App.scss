@@ -8,3 +8,10 @@ $white: #fff; //text color
     font-size: 25px;
     color: $dark-blue;
 }
+
+//Put everything at the right place on the main page
+.App{
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: 60px auto;
+}

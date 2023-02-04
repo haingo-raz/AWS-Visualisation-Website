@@ -4,6 +4,10 @@
     background: linear-gradient($light-blue, $dark-grey);
     padding: 10px 20px;
 
+    a{  
+        text-decoration: none;
+    }
+
     .logo{
         color: $white;
     }

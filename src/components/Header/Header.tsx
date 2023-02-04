@@ -1,10 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Header.scss';
 
 function Header() {
     return (
         <div className="topnav">
-            <h1 className="logo">NBA VISUALISATION</h1>
+            <Link to='/'><h1 className='logo'>NBA STATS</h1></Link>
         </div>
     );
 }

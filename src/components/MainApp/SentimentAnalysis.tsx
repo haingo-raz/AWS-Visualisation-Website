@@ -3,8 +3,12 @@ import './SentimentAnalysis.scss';
 
 function SentimentAnalysis() {
     return (
-        <div>
-            
+        <div className='sentimentAnalysis'>
+            <h1 className='title'>Sentiment Analysis</h1>
+            {/* Graph */}
+            <div className="graphSection">
+                hu
+            </div> 
         </div>
     );
 }

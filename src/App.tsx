@@ -1,14 +1,18 @@
 import React from 'react';
+import { Route, Routes, Link } from 'react-router-dom';
 import './App.scss';
-import Header from './components/Header/Header';
-import MainApp from './components/MainApp/MainApp';
+import AllTeams from './pages/AllTeams';
+import Lakers from './pages/Lakers';
 
 function App() {
   return (
-    <div className="App">
-      <Header/>
-      <MainApp/>
-    </div>
+    <>
+      <Routes>
+        <Route path="/" element={<AllTeams />}/>
+        <Route path="/lakers" element={<Lakers />}/>
+        <Route path="/bulls" element={<Lakers />}/>
+      </Routes>
+    </>
   );
 }
 
