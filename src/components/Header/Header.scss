@@ -1,0 +1,10 @@
+@import "../../App.scss";
+
+.topnav{
+    background: linear-gradient($light-blue, $dark-grey);
+    padding: 10px 20px;
+
+    .logo{
+        color: $white;
+    }
+}
