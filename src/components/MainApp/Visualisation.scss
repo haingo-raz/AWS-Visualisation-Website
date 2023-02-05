@@ -1,5 +1,11 @@
+@import '../../App.scss';
+
 .visualisation{
     .graphSection{
-        background: grey;
+        background: $light-grey;
+        height: 70vh;
+    }
+    .graph{
+        height: 500px;
     }
 }

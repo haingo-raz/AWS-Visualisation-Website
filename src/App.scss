@@ -2,6 +2,7 @@
 $light-blue: #2d8bba; //nav gradient
 $dark-blue: #31356e; //title
 $dark-grey: #3b4848; //nav gradient
+$light-grey: #ececec;
 $white: #fff; //text color 
 
 .title{
@@ -14,4 +15,5 @@ $white: #fff; //text color
     min-height: 100vh;
     display: grid;
     grid-template-rows: 60px auto;
+    width: 100vw;
 }

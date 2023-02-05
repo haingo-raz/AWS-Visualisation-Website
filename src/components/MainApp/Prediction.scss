@@ -1,5 +1,8 @@
+@import '../../App.scss';
+
 .prediction{
     .graphSection{
-        background: grey;
+        background: $light-grey;
+        height: 70vh;
     }
 }

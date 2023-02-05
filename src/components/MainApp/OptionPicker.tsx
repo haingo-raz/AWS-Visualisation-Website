@@ -76,6 +76,7 @@ function OptionPicker() {
                 }
                 </Select> 
             </FormControl>
+            <span>{option}</span>
         </div>
     );
 }
