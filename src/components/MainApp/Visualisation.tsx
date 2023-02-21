@@ -2,28 +2,31 @@ import React, { PureComponent } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import './Visualisation.scss';
 
+
+//Numerical data for each NBA team 
 const scoreData = [
     {
-      name: '2016',
+      year: '2016',
       lowScore: 90,
       highScore: 124,
     },
     {
-      name: '2017',
+      year: '2017',
       lowScore: 65,
       highScore: 89,
     },
     {
-      name: '2018',
+      year: '2018',
       lowScore: 78,
       highScore: 108,
     },
     {
-      name: '2019',
+      year: '2019',
       lowScore: 80,
       highScore: 112,
     },
 ];
+
 
 const CustomizedHighScoreDot = (props : any) => {
     const { cx, cy, stroke, payload, value } = props;
@@ -43,34 +46,34 @@ const CustomizedLowestScoreDot = (props : any) => {
         );
 };
 
-function Visualisation() {
+function Visualisation({teamOption}: {teamOption: any}) {
     return (
         <div className='visualisation'>
-            <h1 className='title'>Visualisation</h1>
+            <h1 className='title'>Visualisation: <span>{teamOption}</span></h1>
             {/* Graph */}
             <div className="graphSection">
                 <div className='graph'>
-                <ResponsiveContainer width="100%" height="100%">        
-                    <LineChart
-                        width={500}
-                        height={300}
-                        data={scoreData}
-                        margin={{
-                            top: 5,
-                            right: 30,
-                            left: 20,
-                            bottom: 5,
-                        }}
-                        >          
-                        <CartesianGrid strokeDasharray="3 3" />          
-                        <XAxis dataKey="name" />          
-                        <YAxis />          
-                        <Tooltip />          
-                        <Legend />          
-                        <Line type="monotone" dataKey="highScore" stroke="#8884d8" dot={<CustomizedHighScoreDot />} />          
-                        <Line type="monotone" dataKey="lowScore" stroke="#82ca9d" dot={<CustomizedLowestScoreDot />}/>        
-                    </LineChart>      
-                </ResponsiveContainer>
+                    <ResponsiveContainer width="100%" height="100%">        
+                        <LineChart
+                            width={500}
+                            height={300}
+                            data={scoreData}
+                            margin={{
+                                top: 5,
+                                right: 30,
+                                left: 20,
+                                bottom: 5,
+                            }}
+                            >          
+                            <CartesianGrid strokeDasharray="3 3" />          
+                            <XAxis dataKey="year" />          
+                            <YAxis />          
+                            <Tooltip />          
+                            <Legend />          
+                            <Line type="monotone" dataKey="highScore" stroke="#8884d8" dot={<CustomizedHighScoreDot />} />          
+                            <Line type="monotone" dataKey="lowScore" stroke="#82ca9d" dot={<CustomizedLowestScoreDot />}/>        
+                        </LineChart>      
+                    </ResponsiveContainer>
                 </div>
             </div>      
         </div>

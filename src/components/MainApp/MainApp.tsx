@@ -5,13 +5,13 @@ import Visualisation from './Visualisation';
 import SentimentAnalysis from './SentimentAnalysis';
 import Prediction from './Prediction';
 
-function MainApp() {
+function MainApp({optionName, teamSentimentData}: {optionName: any, teamSentimentData: any}) {
     return (
         <div className='mainApp'>
             <OptionPicker/>
-            <Visualisation/>
+            <Visualisation teamOption={optionName}/>
             <Prediction/>
-            <SentimentAnalysis/>
+            <SentimentAnalysis sentimentData={teamSentimentData}/>
         </div>
     );
 }

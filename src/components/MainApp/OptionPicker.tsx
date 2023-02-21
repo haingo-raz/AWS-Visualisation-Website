@@ -14,9 +14,6 @@ function OptionPicker() {
     //Interaction with the select input 
     const handleChange = (event: SelectChangeEvent) => { 
         setOption(event.target.value as string);
-        
-        //navigate(`${option}`);
-        //setOption('');
     };
 
     const optionsList = [
@@ -56,17 +53,15 @@ function OptionPicker() {
     return (
         <div className="optionPicker">
             <span>Pick an option</span>
-            <FormControl sx={{ mx:2, width: 250 }} size="small">
+            <FormControl sx={{ mx:2, width: 230 }} size="small">
                 <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
                     value={option}
                     onChange={handleChange}
-                >
-                   
+                >    
                 {
                     optionsList.map((item) => 
                         <MenuItem 
+                            key={item.value}
                             component={Link}
                             to={item.path}
                         >
@@ -75,8 +70,8 @@ function OptionPicker() {
                     )
                 }
                 </Select> 
+                <span></span>
             </FormControl>
-            <span>{option}</span>
         </div>
     );
 }
