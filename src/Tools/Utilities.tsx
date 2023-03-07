@@ -1,3 +1,6 @@
+//Data should be different for each team
+//Data will be exported to each team component 
+
 //dummy lakers sentiment data 
 export const lakersSentimentAnalysis = [
     { name: 'Positive', value: 200 },
@@ -11,7 +14,6 @@ export const allTeamsSentimentAnalysis = [
     { name: 'Negative', value: 300 },
     { name: 'Neutral', value: 600 },
 ];
-
 
 //Dummy numerical data for each NBA team 
 export const scoreData = [
