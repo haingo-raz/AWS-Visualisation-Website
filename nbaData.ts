@@ -1,6 +1,7 @@
 const dotenv = require('dotenv');
 const axios = require('axios');
 const moment = require('moment');
+import { saveNbaData } from "./saveNbaData";
 
 //Interface that defines each team's details
 interface TeamInfo {
@@ -41,15 +42,17 @@ async function getMatchStats(teamId: number): Promise<void> {
             //Get the response data
             let results = dataResponse.data;
 
-            
-            let scoreList: number[] = [];
+            //let scoreList: number[] = [];
 
             results.forEach((result) => {
+                //Only takes the score of the team with the provided id
                 let score: number = result.home_team.id === teamId ? result.home_team_score : result.visitor_team_score;
-                scoreList.push(score);
+                //saveNbaData()
+
+                //scoreList.push(score);
             })
 
-            console.log(scoreList);
+            //console.log(scoreList);
 
         } catch (error) {
             console.log(error);
