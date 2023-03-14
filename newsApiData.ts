@@ -1,12 +1,12 @@
 //Module that reads keys from .env file
 const dotenv = require('dotenv');
-import axios, { AxiosResponse } from "axios";
+const axios = require('axios');
 import { saveArticle } from "./saveNewsData";
 
 //Copy variables in file into environment variables
 dotenv.config();
 
-//Inteface for article properties
+//Interface for article properties
 interface Article {
     author: string | null;
     title: string;
@@ -28,11 +28,6 @@ interface Article {
 const apiKey: any = process.env.NEWS_API_KEY;
 const baseUrl: string = "https://newsapi.org/v2";
 
-// Define the search query parameters
-/*const searchQuery: string = "Los Angeles Lakers";
-const searchLanguage: string = "en";
-const searchPageSize: number = 10;*/
-
 
 //Download and store news api data 
 async function getNewsData(teamName: string): Promise<any> {
@@ -47,6 +42,7 @@ async function getNewsData(teamName: string): Promise<any> {
       
       const articles = dataResponse.data.articles;
 
+      //save each response data to dynamoDB table
       articles.forEach((article) => {
         saveArticle(id++, teamName, article.publishedAt, article.description)
       })   
@@ -56,5 +52,28 @@ async function getNewsData(teamName: string): Promise<any> {
     }
 }
 
-//Send articles about Los Angeles Lakers only to AWS DynamoDB 
+//Get news api data and push to News api table 
 getNewsData('Los Angeles Lakers').then((data) => console.log(data));
+getNewsData('Chicago Bulls').then((data) => console.log(data));
+getNewsData('Houston Rockets').then((data) => console.log(data));
+getNewsData('Golden State Warriors').then((data) => console.log(data));
+getNewsData('Boston Celtics').then((data) => console.log(data));
+
+
+/*
+let teamList: string[] = [
+  'Los Angeles Lakers', 
+  'Chicago Bulls',
+  'Houston Rockets',
+  'Golden State Warriors',
+  'Boston Celtics'
+]
+
+function getTextData(){
+  for (let x=0; x< teamList.length; x++){
+    getNewsData(teamList[x]);
+  }
+}
+
+getTextData();
+*/
