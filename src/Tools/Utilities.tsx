@@ -18,24 +18,20 @@ export const allTeamsSentimentAnalysis = [
 //Dummy numerical data for each NBA team 
 export const scoreData = [
     {
-      year: '2016',
-      lowScore: 70,
-      highScore: 124,
+      matchDate: '16NOV',
+      score: 124,
     },
     {
-      year: '2017',
-      lowScore: 65,
-      highScore: 89,
+      matchDate: '17NOV',
+      score: 89,
     },
     {
-      year: '2018',
-      lowScore: 78,
-      highScore: 108,
+      matchDate: '18NOV',
+      score: 108,
     },
     {
-      year: '2019',
-      lowScore: 80,
-      highScore: 112,
+      matchDate: '19NOV',
+      score: 112,
     },
 ];
 

@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -34,10 +35,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+exports.__esModule = true;
 var dotenv = require('dotenv');
 var axios = require('axios');
 var moment = require('moment');
-//Base Url
+var saveNbaData_1 = require("./saveNbaData");
+//Balldontlie base Url
 var baseUrl = "https://www.balldontlie.io/api/v1/games?";
 var seasonStart = 2020;
 var seasonEnd = 2021;
@@ -49,7 +52,7 @@ function getMatchStats(teamId) {
             switch (_a.label) {
                 case 0:
                     _loop_1 = function (season) {
-                        var url, dataResponse, results, scoreList_1, error_1;
+                        var url, dataResponse, results, error_1;
                         return __generator(this, function (_b) {
                             switch (_b.label) {
                                 case 0:
@@ -61,12 +64,16 @@ function getMatchStats(teamId) {
                                 case 2:
                                     dataResponse = (_b.sent()).data;
                                     results = dataResponse.data;
-                                    scoreList_1 = [];
                                     results.forEach(function (result) {
+                                        //Only takes the score of the team with the provided id
                                         var score = result.home_team.id === teamId ? result.home_team_score : result.visitor_team_score;
-                                        scoreList_1.push(score);
+                                        var teamName = result.home_team.id === teamId ? result.home_team.full_name : result.visitor_team.full_name;
+                                        var matchDate = moment(result.date).format("DD-MM-YYYY");
+                                        //timestamp conversion
+                                        var timestamp = +moment(result.date).format("X");
+                                        //Save to dynamoDB table
+                                        (0, saveNbaData_1.saveNbaData)(teamId, matchDate, teamName, timestamp, score, season);
                                     });
-                                    console.log(scoreList_1);
                                     return [3 /*break*/, 4];
                                 case 3:
                                     error_1 = _b.sent();
@@ -92,4 +99,16 @@ function getMatchStats(teamId) {
         });
     });
 }
-getMatchStats(2);
+var teamIds = [
+    4,
+    5,
+    11,
+    10,
+    2
+];
+function getNumericalData() {
+    for (var x = 0; x < teamIds.length; x++) {
+        getMatchStats(teamIds[x]);
+    }
+}
+getNumericalData();

@@ -1,18 +1,17 @@
-import * as AWS from "aws-sdk"
-
+"use strict";
+exports.__esModule = true;
+exports.saveNbaData = void 0;
+var AWS = require("aws-sdk");
 //AWS Configuration
 AWS.config.update({
     region: "us-east-1"
 });
-
 //Create instance of AWS SDK
-let documentClient = new AWS.DynamoDB.DocumentClient();
-
+var documentClient = new AWS.DynamoDB.DocumentClient();
 /* Function returns a Promise that will save the text with the specified id. */
-export function saveNbaData(teamId: number, matchDate: string, teamName: string, timestamp: number, score: number, season: number): Promise<string> {
-
+function saveNbaData(teamId, matchDate, teamName, timestamp, score, season) {
     //DynamoDB parameters
-    let params = {
+    var params = {
         TableName: "NBA",
         Item: {
             team_id: teamId,
@@ -21,18 +20,18 @@ export function saveNbaData(teamId: number, matchDate: string, teamName: string,
             timestamp: timestamp,
             score: score,
             season: season
-            
         }
     };
-
     //Store data in DynamoDB and handle errors
-    return new Promise<string>((resolve, reject) => {
-        documentClient.put(params, (err, data) => {
+    return new Promise(function (resolve, reject) {
+        documentClient.put(params, function (err, data) {
             if (err) {
                 reject("Unable to add item: " + JSON.stringify(err));
-            } else {
+            }
+            else {
                 resolve("Item added with id " + params.Item);
             }
-        })
+        });
     });
 }
+exports.saveNbaData = saveNbaData;

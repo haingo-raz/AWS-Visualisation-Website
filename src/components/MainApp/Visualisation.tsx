@@ -24,12 +24,12 @@ function Visualisation({teamOption, scoreData}: {teamOption: any, scoreData: any
                             }}
                             >          
                             <CartesianGrid strokeDasharray="3 3" />          
-                            <XAxis dataKey="year" />          
+                            <XAxis dataKey="matchDate" />          
                             <YAxis />          
                             <Tooltip />          
                             <Legend />          
-                            <Line type="monotone" dataKey="highScore" stroke="#8884d8" dot={<CustomizedHighScoreDot />} />          
-                            <Line type="monotone" dataKey="lowScore" stroke="#82ca9d" dot={<CustomizedLowestScoreDot />}/>        
+                            <Line type="monotone" dataKey="score" stroke="#8884d8" dot={<CustomizedHighScoreDot />} />          
+                            {/* <Line type="monotone" dataKey="lowScore" stroke="#82ca9d" dot={<CustomizedLowestScoreDot />}/>         */}
                         </LineChart>      
                     </ResponsiveContainer>
                 </div>

@@ -42,17 +42,19 @@ async function getMatchStats(teamId: number): Promise<void> {
             //Get the response data
             let results = dataResponse.data;
 
-            //let scoreList: number[] = [];
-
             results.forEach((result) => {
                 //Only takes the score of the team with the provided id
                 let score: number = result.home_team.id === teamId ? result.home_team_score : result.visitor_team_score;
-                //saveNbaData()
+                let teamName: string = result.home_team.id === teamId? result.home_team.full_name : result.visitor_team.full_name;
 
-                //scoreList.push(score);
+                let matchDate = moment(result.date).format("DD-MM-YYYY");
+                //timestamp conversion
+                let timestamp: number = +moment(result.date).format("X");
+
+                //Save to dynamoDB table
+                saveNbaData(teamId, matchDate, teamName, timestamp, score, season);
+
             })
-
-            //console.log(scoreList);
 
         } catch (error) {
             console.log(error);
@@ -60,6 +62,19 @@ async function getMatchStats(teamId: number): Promise<void> {
     }
 }
 
-getMatchStats(2);
 
+let teamIds: number[] = [
+   4, 
+   5,
+   11, 
+   10, 
+   2
+]
 
+function getNumericalData(){
+    for (let x=0; x< teamIds.length; x++){
+      getMatchStats(teamIds[x]);
+    }
+}
+
+getNumericalData()
