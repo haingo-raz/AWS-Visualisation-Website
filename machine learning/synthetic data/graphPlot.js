@@ -76,7 +76,7 @@ async function plotData(studentID, xValues, yValues){
     
     let graphOptions = {
         layout: layout,
-        filename: "date-axes",
+        filename: "synthetic_visualisation",
         fileopt: "overwrite"
     };
 

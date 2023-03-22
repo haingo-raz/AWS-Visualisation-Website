@@ -70,12 +70,12 @@ async function plotData(studentID, xValues, yValues) {
     }
 
     //Prediction graph with a different color
-    let predictionData = {
+    let meanData = {
         x: predictionX,
         y: predictions.predictions[0].mean,
         type: "scatter",
         mode: "line",
-        name: "Predictions",
+        name: "Mean",
         marker: {
             color: 'rgb(30, 144, 255)',
             size: 12
@@ -106,12 +106,11 @@ async function plotData(studentID, xValues, yValues) {
         }
     }
 
-    let data = [synthData, predictionData, lowerQuantile, upperQuantile];
+    let data = [synthData, meanData, lowerQuantile, upperQuantile];
 
-    console.log(data);
-
+    //Graph layout
     let layout = {
-        title: "Synthetic Data Prediction for Student (" + studentID + ")",
+        title: "Prediction synthetic data (" + studentID + ")",
         font: {
             size: 25
         },
@@ -125,7 +124,7 @@ async function plotData(studentID, xValues, yValues) {
 
     let graphOptions = {
         layout: layout,
-        filename: "date-axes",
+        filename: "synthetic_prediction",
         fileopt: "overwrite"
     };
 

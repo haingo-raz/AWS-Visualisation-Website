@@ -9,15 +9,16 @@ AWS.config.update({
 //Create instance of AWS SDK
 var documentClient = new AWS.DynamoDB.DocumentClient();
 /* Function returns a Promise that will save the text with the specified id. */
-function saveArticle(articleId, teamName, publishDate, articleText) {
+function saveArticle(articleId, teamName, timestamp, publishDate, articleText) {
     //DynamoDB parameters
     var params = {
         TableName: "NewsAPI",
         Item: {
             article_id: articleId,
             team_name: teamName,
+            timestamp: timestamp,
             published_at: publishDate,
-            text: articleText
+            text_content: articleText
         }
     };
     //Store data in DynamoDB and handle errors

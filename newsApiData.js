@@ -38,17 +38,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 //Module that reads keys from .env file
 var dotenv = require('dotenv');
-var axios_1 = require("axios");
+var axios = require('axios');
+var moment = require('moment');
 var saveNewsData_1 = require("./saveNewsData");
 //Copy variables in file into environment variables
 dotenv.config();
 // Define the API key and the base URL for the News API
 var apiKey = process.env.NEWS_API_KEY;
 var baseUrl = "https://newsapi.org/v2";
-// Define the search query parameters
-/*const searchQuery: string = "Los Angeles Lakers";
-const searchLanguage: string = "en";
-const searchPageSize: number = 10;*/
 //Download and store news api data 
 function getNewsData(teamName) {
     return __awaiter(this, void 0, void 0, function () {
@@ -61,12 +58,14 @@ function getNewsData(teamName) {
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
-                    return [4 /*yield*/, axios_1["default"].get(NewsAPIUrl)];
+                    return [4 /*yield*/, axios.get(NewsAPIUrl)];
                 case 2:
                     dataResponse = _a.sent();
                     articles = dataResponse.data.articles;
+                    //save each response data to dynamoDB table
                     articles.forEach(function (article) {
-                        (0, saveNewsData_1.saveArticle)(id++, teamName, article.publishedAt, article.description);
+                        var timestamp = +moment(article.publishDate).format("X");
+                        (0, saveNewsData_1.saveArticle)(id++, teamName, timestamp, article.publishedAt, article.description);
                     });
                     return [3 /*break*/, 4];
                 case 3:
@@ -78,4 +77,22 @@ function getNewsData(teamName) {
         });
     });
 }
+//Get news api data and push to News api table 
 getNewsData('Los Angeles Lakers').then(function (data) { return console.log(data); });
+getNewsData('Chicago Bulls').then(function (data) { return console.log(data); });
+getNewsData('Houston Rockets').then(function (data) { return console.log(data); });
+getNewsData('Golden State Warriors').then(function (data) { return console.log(data); });
+getNewsData('Boston Celtics').then(function (data) { return console.log(data); });
+// let teamList: string[] = [
+//   'Los Angeles Lakers', 
+//   'Chicago Bulls',
+//   'Houston Rockets',
+//   'Golden State Warriors',
+//   'Boston Celtics'
+// ]
+// function getTextData(){
+//   for (let x=0; x< teamList.length; x++){
+//     getNewsData(teamList[x]);
+//   }
+// }
+// getTextData();

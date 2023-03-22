@@ -1,6 +1,7 @@
 //Module that reads keys from .env file
 const dotenv = require('dotenv');
 const axios = require('axios');
+const moment = require('moment');
 import { saveArticle } from "./saveNewsData";
 
 //Copy variables in file into environment variables
@@ -44,7 +45,9 @@ async function getNewsData(teamName: string): Promise<any> {
 
       //save each response data to dynamoDB table
       articles.forEach((article) => {
-        saveArticle(id++, teamName, article.publishedAt, article.description)
+
+        let timestamp: number = +moment(article.publishDate).format("X");
+        saveArticle(id++, teamName, timestamp, article.publishedAt, article.description)
       })   
 
     } catch (error) {
@@ -60,20 +63,18 @@ getNewsData('Golden State Warriors').then((data) => console.log(data));
 getNewsData('Boston Celtics').then((data) => console.log(data));
 
 
-/*
-let teamList: string[] = [
-  'Los Angeles Lakers', 
-  'Chicago Bulls',
-  'Houston Rockets',
-  'Golden State Warriors',
-  'Boston Celtics'
-]
+// let teamList: string[] = [
+//   'Los Angeles Lakers', 
+//   'Chicago Bulls',
+//   'Houston Rockets',
+//   'Golden State Warriors',
+//   'Boston Celtics'
+// ]
 
-function getTextData(){
-  for (let x=0; x< teamList.length; x++){
-    getNewsData(teamList[x]);
-  }
-}
+// function getTextData(){
+//   for (let x=0; x< teamList.length; x++){
+//     getNewsData(teamList[x]);
+//   }
+// }
 
-getTextData();
-*/
+// getTextData();

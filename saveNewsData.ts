@@ -9,7 +9,7 @@ AWS.config.update({
 let documentClient = new AWS.DynamoDB.DocumentClient();
 
 /* Function returns a Promise that will save the text with the specified id. */
-export function saveArticle(articleId: number, teamName: string, publishDate: string, articleText: string): Promise<string> {
+export function saveArticle(articleId: number, teamName: string, timestamp: number, publishDate: string, articleText: string): Promise<string> {
 
     //DynamoDB parameters
     let params = {
@@ -17,8 +17,9 @@ export function saveArticle(articleId: number, teamName: string, publishDate: st
         Item: {
             article_id: articleId,
             team_name: teamName,
-            published_at: publishDate, // created_at of tweet
-            text: articleText,//Text of tweet
+            timestamp: timestamp,
+            published_at: publishDate, // article publish date
+            text_content: articleText,//Text of article
         }
     };
 

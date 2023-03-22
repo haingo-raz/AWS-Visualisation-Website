@@ -1,10 +1,15 @@
 let AWS = require("aws-sdk");
 
-//Create a DynamoDB instance 
+/*Called when client connects.
+Extracts connection ID from event object.
+Stores connection ID in DynamoDB table.
+Returns status 200 if successful.*/
+
+//Create a DynamoDB instance to store new connection in database
 let documentClient = new AWS.DynamoDB.DocumentClient();
 
 exports.handler = async (event) => {
-    //Receive ID from event
+    //Get connection ID from event 
     let connectId = event.requestContext.connectionId;
     console.log("Client connected with ID: " + connectId);
 
@@ -16,7 +21,7 @@ exports.handler = async (event) => {
         }
     };
 
-    //Connection Id for communication with client
+    //Store connection Id for communication with client
     try {
         await documentClient.put(params).promise();
         console.log("Connection ID stored.");
