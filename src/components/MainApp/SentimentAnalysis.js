@@ -15,16 +15,7 @@ const COLORS = ['#41b8d5', '#31356e', '#6ce5e8'];
 
 const RADIAN = Math.PI / 180;
 
-const renderCustomizedLabel = ({ cx , cy, midAngle, innerRadius, outerRadius, percent, index }: 
-    {
-        cx: any, 
-        cy:any, 
-        midAngle: any,
-        innerRadius:any, 
-        outerRadius:any,
-        percent:any,
-        index:any
-    } ) => {
+const renderCustomizedLabel = (cx , cy, midAngle, innerRadius, outerRadius, percent, index) => {
     const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
     const x = cx + radius * Math.cos(-midAngle * RADIAN);
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
@@ -36,10 +27,11 @@ const renderCustomizedLabel = ({ cx , cy, midAngle, innerRadius, outerRadius, pe
   );
 };
 
-function SentimentAnalysis({sentimentData}: {sentimentData:any}) {
+const SentimentAnalysis = ({sentimentData}) => {
     return (
         <div className='sentimentAnalysis'>
             <h1 className='title'>Sentiment Analysis</h1>
+
             {/* Graph */}
             <div className="graphSection">
                 <div className="graph">
@@ -56,9 +48,8 @@ function SentimentAnalysis({sentimentData}: {sentimentData:any}) {
                                 fill="#8884d8"
                                 dataKey={sentimentData.value}
                             >
-                                {sentimentData.map(({index}: {index: number}) => (
-                                    // <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                    <Cell key={`cell-${index}`} fill='#41b8d5' />
+                                {sentimentData.map((entry, index) => (
+                                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                                 ))}
                             </Pie>
                             <Tooltip />
@@ -68,6 +59,7 @@ function SentimentAnalysis({sentimentData}: {sentimentData:any}) {
                 <h3 className="teamName">Team name</h3>
                 <p className="graphDescription">Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur</p>
             </div> 
+
         </div>
     );
 }

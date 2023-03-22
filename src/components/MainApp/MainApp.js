@@ -5,17 +5,7 @@ import Visualisation from './Visualisation';
 import SentimentAnalysis from './SentimentAnalysis';
 import Prediction from './Prediction';
 
-function MainApp(
-    {optionName, 
-    teamScoreData,
-    teamSentimentData,
-    teamPredictionData
-    }: 
-    {optionName: any, 
-    teamScoreData: any,
-    teamSentimentData: any, 
-    teamPredictionData: any
-    }) {
+const MainApp = ({optionName, teamScoreData, teamSentimentData, teamPredictionData}) => {
 
     return (
         <div className='mainApp'>

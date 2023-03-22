@@ -12,7 +12,7 @@ function Celtics() {
             <MainApp 
                 optionName="Boston Celtics" 
                 teamScoreData={scoreData} //respective team downloaded data
-                teamSentimentData={lakersSentimentAnalysis } //respective team downloaded data
+                teamSentimentData={lakersSentimentAnalysis} //respective team downloaded data
                 teamPredictionData={predictionData} //respective team downloaded data
             />
         </div>

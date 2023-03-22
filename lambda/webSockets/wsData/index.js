@@ -5,7 +5,8 @@ let db = require("database");
 /**Contains main handler */
 
 //Hard coded domain name and stage to broadcast data to connected clients
-let domainName = "wss://2vn1tu4oo8.execute-api.us-east-1.amazonaws.com"; //custom API link
+//let domainName = "wss://2vn1tu4oo8.execute-api.us-east-1.amazonaws.com"; //custom API link
+let domainName = "";
 let stage = "prod";
 
 //CUSTOM CHANGE
@@ -15,7 +16,6 @@ exports.handler = async (event) => {
 
     try {
         let msg;
-
 
         //Records upon change to NBA table
         if (event.Records !== undefined) {

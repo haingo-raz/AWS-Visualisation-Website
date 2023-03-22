@@ -4,7 +4,7 @@ import './Visualisation.scss';
 import { CustomizedHighScoreDot, CustomizedLowestScoreDot } from '../../Tools/Utilities';
 //import { scoreData } from '../../Tools/Utilities';
 
-function Visualisation({teamOption, scoreData}: {teamOption: any, scoreData: any}) {
+const Visualisation = ({teamOption, scoreData}) => {
     return (
         <div className='visualisation'>
             <h1 className='title'>Visualisation: <span>{teamOption}</span></h1>

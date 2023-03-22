@@ -3,7 +3,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import './Prediction.scss';
 import { CustomizedHighScoreDot, CustomizedLowestScoreDot } from '../../Tools/Utilities';
 
-function Prediction({predictionData}: {predictionData:any}) {
+const Prediction = ({predictionData}) => {
     return (
         <div className='prediction'>
             <h1 className='title'>Prediction</h1>
