@@ -49,9 +49,8 @@ exports.handler = async (event) => {
             let teamName = JSON.parse(event.body).team_name;
             let tableName = JSON.parse(event.body).table_name;
 
-            /* retrieve the match and prediction data if the event requested the MatchStats
-            table or "all" tables */
-            if (tableName === "MatchStats" || tableName === "all") {
+            //retrieve data on NBA table request 
+            if (tableName === "NBA" || tableName === "all") {
                 msg.match_data = await getNbaScore(teamName);
                 msg.prediction_data = (await db.getArticleText(teamName)).Items[0];
             }

@@ -1,23 +1,25 @@
 let AWS = require("aws-sdk");
 
-/* get document client to handle DynamoDB tables */
+/*Called when client disconnects*/
+
+//Create dynamoDB instance 
 let documentClient = new AWS.DynamoDB.DocumentClient();
 
 exports.handler = async (event) => {
 
-    /* get connection ID from event */
+    //Get connectionID 
     let connId = event.requestContext.connectionId;
     console.log("Disconnecting client with ID: " + connId);
 
-    /* parameters for deleting connection ID from DynamoDB */
+    //DynamoDB parameters for deletion 
     let params = {
-        TableName: "WebSocketsClients",
+        TableName: "WebSocketClients",
         Key: {
-            ConnectionID: connId
+            connectionID: connId
         }
     };
 
-    /* delete connection ID so that no data is sent to this client after they disconnect */
+    //Delete connection ID
     try {
         await documentClient.delete(params).promise();
         console.log("Connection ID deleted.");

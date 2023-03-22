@@ -17,7 +17,7 @@ exports.handler = async (event) => {
     let params = {
         TableName: "WebSocketClients", //table name 
         Item: {
-            ConnectionId: connectId
+            connectionId: connectId
         }
     };
 

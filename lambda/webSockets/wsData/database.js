@@ -20,7 +20,7 @@ module.exports.deleteConnectionId = async (connectionId) => {
     let params = {
         TableName: "WebSocketClients",
         Key: {
-            ConnectionId: connectionId
+            connectionId: connectionId
         }
     };
     return documentClient.delete(params).promise();
