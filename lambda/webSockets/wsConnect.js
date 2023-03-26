@@ -10,14 +10,14 @@ let documentClient = new AWS.DynamoDB.DocumentClient();
 
 exports.handler = async (event) => {
     //Get connection ID from event 
-    let connectId = event.requestContext.connectionId;
-    console.log("Client connected with ID: " + connectId);
+    let connId = event.requestContext.connectionId;
+    console.log("Client connected with ID: " + connId);
 
     //DynamoDB parameters
     let params = {
         TableName: "WebSocketClients", //table name 
         Item: {
-            connectionId: connectId
+            connectionId: connId
         }
     };
 
@@ -29,7 +29,7 @@ exports.handler = async (event) => {
         //Return response
         return {
             statusCode: 200,
-            body: "Client connected with ID: " + connectId
+            body: "Client connected with ID: " + connId
         };
     }
     catch (err) {

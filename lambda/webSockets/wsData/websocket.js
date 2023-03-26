@@ -1,5 +1,5 @@
 let AWS = require("aws-sdk");
-let db = require('database');//Import functions for database
+let db = require('database');//Import functions from database.js
 
 /*Use API Gateway to send message to clients*/
 

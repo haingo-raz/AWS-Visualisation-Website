@@ -13,7 +13,8 @@ module.exports.getConnectionIds = async () => {
     return documentClient.scan(params).promise();
 };
 
-//Deletes the specified connection ID
+
+//Deletes specified connection ID
 module.exports.deleteConnectionId = async (connectionId) => {
     console.log("Deleting connection Id: " + connectionId);
 
@@ -25,6 +26,41 @@ module.exports.deleteConnectionId = async (connectionId) => {
     };
     return documentClient.delete(params).promise();
 };
+
+
+
+//Return News API sentiment analysis data of specified team for client
+module.exports.getSentiment() = async (teamName) => {
+
+    let params = {
+        TableName: "articleAnalysis", //dynamoDB table that holds text sentiment analysis results
+        FilterExpression: "team_name = :t",
+        ExpressionAttributeValues: {
+            ":t": teamName
+        }
+    };
+
+    //returns all data items 
+    return documentClient.scan(params).promise(); 
+};
+
+//Numerical data
+//Get each team historical data
+module.exports.getScore = async (teamName) => {
+
+    let params = {
+        TableName: "NBA", //dynamoDB table that holds each NBA team score
+        KeyConditionExpression: "team_name = :t",
+        ExpressionAttributeValues: {
+            ":t": teamName
+        }
+    };
+
+    //query: identifies attributes to retrieve from the table
+    return documentClient.query(params).promise();   
+};
+
+
 
 //Return nba score prediciton data for client
 module.exports.getPredictions = async (teamName) => {
@@ -38,39 +74,5 @@ module.exports.getPredictions = async (teamName) => {
         }
     };
 
-    //console.log("Params: " + JSON.stringify(params));
     return documentClient.query(params).promise(); //query: identifies attributes to retrieve from the table
 }
-
-
-//Return News API sentiment analysis data of specified team for client
-module.exports.getSentiment() = async (teamName) => {
-
-    let params = {
-        TableName: "sentimentData", //dynamoDB table that holds text sentiment analysis results
-        FilterExpression: "team_name = :t",
-        ExpressionAttributeValues: {
-            ":t": teamName
-        }
-    };
-
-    //console.log("Params: " + JSON.stringify(params));
-    return documentClient.scan(params).promise(); //returns all data items 
-};
-
-
-//Get each team historical data
-module.exports.getScore = async (teamName) => {
-
-    let params = {
-        TableName: "NBA", //dynamoDB table that holds each NBA team score
-        KeyConditionExpression: "team_name = :t",
-        ExpressionAttributeValues: {
-            ":t": teamName
-        }
-    };
-
-    //console.log("Params: " + JSON.stringify(params));
-    return documentClient.query(params).promise(); //query: identifies attributes to retrieve from the table
-};
-

@@ -1,11 +1,10 @@
-//Import external library with websocket functions
-let ws = require('websocket');
-let db = require("database");
+let ws = require('websocket'); //websocket
+let db = require("database"); //database functions
 
-/**Contains main handler */
+/*Contains main handler */
+/*Graph ploting happens here*/
 
-//Hard coded domain name and stage to broadcast data to connected clients
-//let domainName = "wss://2vn1tu4oo8.execute-api.us-east-1.amazonaws.com"; //custom API link
+//Hard coded domain name and stage for data broadcasting to connected clients
 let domainName = "";
 let stage = "prod";
 
@@ -23,8 +22,8 @@ exports.handler = async (event) => {
             type: "UPDATE"
         }
         for (let record of event.Records) {
-            /* if the event occured because of a new table insert or a remove, 
-            set the table name to that tables name */
+           
+            //change within the table
             if (record.eventName === "INSERT" || record.eventName === "REMOVE") {
                 let tableName = record.eventSourceARN.split(':')[5].split('/')[1];
                 if (msg.table_name === undefined)
@@ -76,6 +75,7 @@ exports.handler = async (event) => {
 };
 
 /*Sentiment analysis operation required*/
+
 //Gets the sentiment analysis data for display
 async function getArticleText(teamName){
 
