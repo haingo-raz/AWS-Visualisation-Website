@@ -5,6 +5,11 @@ import { lakersSentimentAnalysis } from '../Tools/Utilities';
 import { predictionData } from '../Tools/Utilities';
 import { scoreData } from '../Tools/Utilities';
 
+
+//get lakers sentiment analysis graph
+
+
+
 function Lakers() {
     return (
         <div className='App'>
