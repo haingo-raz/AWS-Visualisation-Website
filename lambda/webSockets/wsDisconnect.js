@@ -9,6 +9,7 @@ exports.handler = async (event) => {
 
     //Get connectionID 
     let connId = event.requestContext.connectionId;
+    
     console.log("Disconnecting client with ID: " + connId);
 
     //DynamoDB parameters for deletion 

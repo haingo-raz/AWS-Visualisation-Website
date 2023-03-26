@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import './Visualisation.scss';
-import { CustomizedHighScoreDot, CustomizedLowestScoreDot } from '../../Tools/Utilities';
+import { CustomizedHighScoreDot} from '../../Tools/Utilities';
 //import { scoreData } from '../../Tools/Utilities';
 
 const Visualisation = ({teamOption, scoreData}) => {

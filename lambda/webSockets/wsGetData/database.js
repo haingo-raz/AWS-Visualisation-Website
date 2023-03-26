@@ -21,7 +21,7 @@ module.exports.deleteConnectionId = async (connectionId) => {
     let params = {
         TableName: "WebSocketClients",
         Key: {
-            connectionId: connectionId
+            ConnectionId: connectionId
         }
     };
     return documentClient.delete(params).promise();
@@ -30,7 +30,7 @@ module.exports.deleteConnectionId = async (connectionId) => {
 
 
 //Return News API sentiment analysis data of specified team for client
-module.exports.getSentiment() = async (teamName) => {
+module.exports.getSentiment = async (teamName) => {
 
     let params = {
         TableName: "articleAnalysis", //dynamoDB table that holds text sentiment analysis results
@@ -44,9 +44,11 @@ module.exports.getSentiment() = async (teamName) => {
     return documentClient.scan(params).promise(); 
 };
 
+
+
 //Numerical data
 //Get each team historical data
-module.exports.getScore = async (teamName) => {
+/*module.exports.getScore = async (teamName) => {
 
     let params = {
         TableName: "NBA", //dynamoDB table that holds each NBA team score
@@ -58,12 +60,12 @@ module.exports.getScore = async (teamName) => {
 
     //query: identifies attributes to retrieve from the table
     return documentClient.query(params).promise();   
-};
+};*/
 
 
 
 //Return nba score prediciton data for client
-module.exports.getPredictions = async (teamName) => {
+/*module.exports.getPredictions = async (teamName) => {
 
     //DynamoDB parameters
     let params = {
@@ -75,4 +77,4 @@ module.exports.getPredictions = async (teamName) => {
     };
 
     return documentClient.query(params).promise(); //query: identifies attributes to retrieve from the table
-}
+}*/

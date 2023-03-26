@@ -5,12 +5,13 @@
     display: flex;
     gap: 20px;
 
-    a{
+    button{
         text-decoration: none;
         border: 2px solid $dark-blue;
         border-radius: 4px;
         padding: 10px 4px 4px 4px;
         color: $black;
+        cursor: pointer;
 
         &:hover{
             background: $light-blue;

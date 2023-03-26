@@ -11,6 +11,7 @@ let documentClient = new AWS.DynamoDB.DocumentClient();
 exports.handler = async (event) => {
     //Get connection ID from event 
     let connId = event.requestContext.connectionId;
+    
     console.log("Client connected with ID: " + connId);
 
     //DynamoDB parameters
