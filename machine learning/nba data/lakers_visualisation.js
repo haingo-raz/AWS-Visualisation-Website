@@ -1,6 +1,6 @@
 //Visualisation of predictions data 
 const lakersdata = require('./full dataset/Lakers.json');
-const lakerspredictions = require('./predictions/Lakers_prediction.json');  //this
+const lakerspredictions = require('./predictions/Lakers_prediction.json');  //specific path to json file
 
 //Authentication details for Plotly
 const PLOTLY_USERNAME = 'haingoraz';
