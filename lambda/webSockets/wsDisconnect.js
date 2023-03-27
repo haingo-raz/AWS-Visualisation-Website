@@ -10,13 +10,13 @@ exports.handler = async (event) => {
     //Get connectionID 
     let connId = event.requestContext.connectionId;
     
-    console.log("Disconnecting client with ID: " + connId);
+    console.log("Disconnection client with ID: " + connId);
 
-    //DynamoDB parameters for deletion 
+    //DynamoDB parameters
     let params = {
-        TableName: "WebSocketClients",
-        Key: {
-            connectionID: connId
+        TableName: "WebSocketClients", //table name 
+        Item: {
+            connectionId: connId
         }
     };
 

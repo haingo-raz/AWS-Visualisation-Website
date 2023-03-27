@@ -2,10 +2,9 @@ let ws = require('websocket'); //websocket
 let db = require("database"); //database functions
 
 /*Contains main handler */
-/*Graph ploting happens here*/
 
 //Hard coded domain name and stage for data broadcasting to connected clients
-let domainName = "wss://13kc76hcsa.execute-api.us-east-1.amazonaws.com/";
+let domainName = "13kc76hcsa.execute-api.us-east-1.amazonaws.com";
 let stage = "prod";
 
 //CUSTOM CHANGE
@@ -13,70 +12,37 @@ exports.handler = async (event) => {
 
     console.log(JSON.stringify(event));
 
-    try {
+    //Receive team name and table name from client
+    let teamName = JSON.parse(event.body).team_name;
+    let tableName = JSON.parse(event.body).table_name;
+
+    try{
+
         let msg;
 
-        //Records upon change to NBA table
-        if (event.Records !== undefined) {
         msg = {
-            type: "UPDATE"
+            type: "LOAD"
         };
-        
-        for (let record of event.Records) {
-           
-            //change within the table
-            if (record.eventName === "INSERT" || record.eventName === "REMOVE") {
-                let tableName = record.eventSourceARN.split(':')[5].split('/')[1];
-                if (msg.table_name === undefined)
-                    msg.table_name = tableName;
-                else
-                    msg.table_name = "all";
-            }
-        }
 
-        /* send the name of the table that was updated back to the user */
-        let sendMsgPromises = await ws.getSendMessagePromises(JSON.stringify(msg), domainName, stage);
+        //Get sentiment analysis data
+        msg.sentiment_data = await getSentimentData(teamName); //grab the sentiment analysis data
+
+        //console.log("Team sentiment data: " + JSON.stringify(msg.sentiment_data));
+
+        //send data back to client
+        let sendMsgPromises = await ws.getSendMessagePromises(msg, domainName, stage);
 
         await Promise.all(sendMsgPromises);
+    }
+    catch(error){
 
-        } else {
-
-            //load data
-            msg = {
-                type: "LOAD"
-            };
-
-            //what is this and where is this from? ??????????????????????????????????????????
-            let teamName = JSON.parse(event.body).team_name;
-            let tableName = JSON.parse(event.body).table_name;
-
-            //retrieve data numerical data from NBA
-            /*if (tableName === "NBA" || tableName === "all") {
-                msg.match_data = await getNbaScore(teamName);
-                msg.prediction_data = (await db.getPredictions(teamName)).Items[0];
-            }*/
-
-            //retrieve sentiment analysis data
-            if (tableName === "articleAnalysis" || tableName === "all")
-                msg.sentiment_data = await getSentimentData(teamName);
-
-            msg.table_name = tableName;
-            msg.team_name = teamName;
-
-            /* send retrieved data back to the user */
-            let sendMsgPromises = await ws.getSendMessagePromises(msg, domainName, stage);
-
-            await Promise.all(sendMsgPromises);
-        }
-
-    } catch (error) {
-        return { statusCode: 500, body: "Error: " + JSON.stringify(error) };
     }
 
-    return { statusCode: 200, body: "Data sent successfully." };
+
+    //Log the event 
+    console.log("Event details :" + JSON.stringify(event));
 };
 
-/*Sentiment analysis operation required*/
 
 //Gets the sentiment analysis data for display
 async function getSentimentData(teamName){
@@ -84,11 +50,10 @@ async function getSentimentData(teamName){
     //Get sentiment data of the selected team 
     const articleText = await db.getSentiment(teamName);
 
-    console.log(articleText);
+    console.log("sentiment received" + articleText);
 
     //take dynamoDB Items response
     const articleItems = articleText.Items; 
-    const dataLenght = articleText.ScannedCount; //number of items returned
 
     let positiveSentiment;
     let negativeSentiment;
@@ -118,6 +83,8 @@ async function getSentimentData(teamName){
         negative: negativeSentiment,
         neutral: neutralSentiment
     };
+
+    console.log("Sentiment results" + sentimentData);
 
     return sentimentData;
 }

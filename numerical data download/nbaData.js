@@ -39,76 +39,69 @@ exports.__esModule = true;
 var dotenv = require('dotenv');
 var axios = require('axios');
 var moment = require('moment');
-var saveNbaData_1 = require("./saveNbaData");
 //Balldontlie base Url
 var baseUrl = "https://www.balldontlie.io/api/v1/games?";
-var seasonStart = 2020;
+var seasonStart = 2015;
 var seasonEnd = 2021;
 //Retrieve match data 
 function getMatchStats(teamId) {
     return __awaiter(this, void 0, void 0, function () {
-        var _loop_1, season;
+        var season, url, dataResponse, results, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _loop_1 = function (season) {
-                        var url, dataResponse, results, error_1;
-                        return __generator(this, function (_b) {
-                            switch (_b.label) {
-                                case 0:
-                                    url = "".concat(baseUrl, "seasons[]=").concat(season, "&team_ids[]=").concat(teamId, "&per_page=100");
-                                    _b.label = 1;
-                                case 1:
-                                    _b.trys.push([1, 3, , 4]);
-                                    return [4 /*yield*/, axios.get(url)];
-                                case 2:
-                                    dataResponse = (_b.sent()).data;
-                                    results = dataResponse.data;
-                                    results.forEach(function (result) {
-                                        //Only takes the score of the team with the provided id
-                                        var score = result.home_team.id === teamId ? result.home_team_score : result.visitor_team_score;
-                                        var teamName = result.home_team.id === teamId ? result.home_team.full_name : result.visitor_team.full_name;
-                                        var matchDate = moment(result.date).format("DD-MM-YYYY");
-                                        //timestamp conversion
-                                        var timestamp = +moment(result.date).format("X");
-                                        //Save to dynamoDB table
-                                        (0, saveNbaData_1.saveNbaData)(teamId, matchDate, teamName, timestamp, score, season);
-                                    });
-                                    return [3 /*break*/, 4];
-                                case 3:
-                                    error_1 = _b.sent();
-                                    console.log(error_1);
-                                    return [3 /*break*/, 4];
-                                case 4: return [2 /*return*/];
-                            }
-                        });
-                    };
                     season = seasonStart;
                     _a.label = 1;
                 case 1:
-                    if (!(season <= seasonEnd)) return [3 /*break*/, 4];
-                    return [5 /*yield**/, _loop_1(season)];
+                    if (!(season <= seasonEnd)) return [3 /*break*/, 6];
+                    url = "".concat(baseUrl, "seasons[]=").concat(season, "&team_ids[]=").concat(teamId, "&per_page=100");
+                    _a.label = 2;
                 case 2:
-                    _a.sent();
-                    _a.label = 3;
+                    _a.trys.push([2, 4, , 5]);
+                    return [4 /*yield*/, axios.get(url)];
                 case 3:
+                    dataResponse = (_a.sent()).data;
+                    results = dataResponse.data;
+                    results.forEach(function (result) {
+                        //Only takes the score of the team with the provided id
+                        var score = result.home_team.id === teamId ? result.home_team_score : result.visitor_team_score;
+                        var teamName = result.home_team.id === teamId ? result.home_team.full_name : result.visitor_team.full_name;
+                        var matchDate = moment(result.date).format("DD-MM-YYYY");
+                        //timestamp conversion
+                        var timestamp = +moment(result.date).format("X");
+                        //Save to dynamoDB table
+                        //saveNbaData(teamId, matchDate, teamName, timestamp, score, season);
+                        console.log(score);
+                    });
+                    return [3 /*break*/, 5];
+                case 4:
+                    error_1 = _a.sent();
+                    console.log(error_1);
+                    return [3 /*break*/, 5];
+                case 5:
                     season++;
                     return [3 /*break*/, 1];
-                case 4: return [2 /*return*/];
+                case 6: return [2 /*return*/];
             }
         });
     });
 }
+getMatchStats(2);
 var teamIds = [
-    4,
+    14,
     5,
     11,
     10,
     2
 ];
-function getNumericalData() {
-    for (var x = 0; x < teamIds.length; x++) {
-        getMatchStats(teamIds[x]);
-    }
-}
-getNumericalData();
+// function getNumericalData(){
+//     for (let x=0; x< teamIds.length; x++){
+//       getMatchStats(teamIds[x])
+//     }
+// }
+// getNumericalData()
+//Los angeles lakers 14
+//Chicago Bulls 5
+//Houston Rockets 11
+//Golden state warriors10
+//Boston Celtics 2

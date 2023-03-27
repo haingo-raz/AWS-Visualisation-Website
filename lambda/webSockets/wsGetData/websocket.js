@@ -5,19 +5,19 @@ let db = require('database');//Import functions from database.js
 
 module.exports.getSendMessagePromises = async (message, domainName, stage) => {
 
-    //Get connection IDs of clients FROM WebSocketClients
+    //Get connection IDs of connected clients
     let clientIdArray = (await db.getConnectionIds()).Items;
-    console.log("\nClient IDs:\n" + JSON.stringify(clientIdArray));
+    console.log("\nClient IDs:\n" + JSON.stringify(clientIdArray)); //code
 
-    //Create API Gateway management class.
+    //API Gateway Management class
     const apigwManagementApi = new AWS.ApiGatewayManagementApi({
         endpoint: domainName + '/' + stage
     });
 
-    //Try to send message to connected clients
+    //Sending messages to clients
     let msgPromiseArray = clientIdArray.map( async item => {
         try{
-            console.log("Sending message '" + message + "' to: " + item.connectionId);
+            console.log("Sending message '" + JSON.stringify(message) + "' to: " + item.connectionId);
 
             //Create parameters for API Gateway
             let apiMsg = {
@@ -25,8 +25,9 @@ module.exports.getSendMessagePromises = async (message, domainName, stage) => {
                 Data: JSON.stringify(message)
             };
 
-            //Wait for API Gateway to execute and log result
+            //execution
             await apigwManagementApi.postToConnection(apiMsg).promise();
+            //Print results
             console.log("Message '" + message + "' sent to: " + item.connectionId);
         }
         catch(err){

@@ -12,7 +12,7 @@ import { scoreData } from './Tools/Utilities';
 
 function App() {
 
-  const [activeTeamOption, setActiveTeamOption] = useState('');
+  const [activeTeamOption, setActiveTeamOption] = useState('All teams');
   const [sentimentData, setSentimentData] = useState([]);
 
   //Web Socket handling 
@@ -32,9 +32,9 @@ function App() {
   //upon message receival from server
   connection.onmessage = function (msg) {
 
-        console.log(msg);
+      console.log(msg);
 
-      let data = JSON.parse(msg.data);
+      let data = JSON.stringify(msg.data);
 
       console.log("Received data" + data);
 
@@ -49,22 +49,25 @@ function App() {
       //console.log(activeTeamOption);
 
       //Update sentiment data chart 
-      // if (data.team_name == activeTeamOption && (data.table_name === "articleAnalysis" || data.table_name === "all")) {
-          let sentimentData = data.sentiment_data;
+    
+        let sentimentData = data.sentiment_data;
+        let positiveData = sentimentData.positive;
+        let negativeData = sentimentData.negative;
+        let neutralData = sentimentData.neutral;
 
-          console.log(sentimentData);
+        console.log(sentimentData);
 
-          //Get sentiment data for selected team
-          // const sentimentAnalysis = [
-          //   { name: 'Positive', value: sentimentData.positive },
-          //   { name: 'Negative', value: sentimentData.negative },
-          //   { name: 'Neutral', value: sentimentData.neutral }
-          // ];
+        //Get sentiment data for selected team
+        const sentimentAnalysis = [
+            { name: 'Positive', value: 400 },
+            { name: 'Negative', value: 300 },
+            { name: 'Neutral', value: 300 }
+        ];
 
-          // setSentimentData(sentimentAnalysis);
-          // console.log(sentimentData);
-      //} 
-  }
+        setSentimentData(sentimentAnalysis);
+
+        console.log(sentimentData);
+    }
 
     //function called upon selecting a team 
     const handleOption = (teamOption) => {
@@ -81,7 +84,7 @@ function App() {
     let msgObject = {
       action: "getData", //API Gateway route
       team_name: activeTeamOption,
-      table_name: "articleAnalysis" //Table name 
+      table_name: tableName //Table name 
     };
 
     //send the message to the connection

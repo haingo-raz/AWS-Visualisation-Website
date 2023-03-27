@@ -1,6 +1,6 @@
 let AWS = require("aws-sdk");
 
-//handle connection IDs
+/*handle connection IDs*/
 
 //Create new DocumentClient
 let documentClient = new AWS.DynamoDB.DocumentClient();
@@ -32,6 +32,7 @@ module.exports.deleteConnectionId = async (connectionId) => {
 //Return News API sentiment analysis data of specified team for client
 module.exports.getSentiment = async (teamName) => {
 
+    //DynamoDB table parameters
     let params = {
         TableName: "articleAnalysis", //dynamoDB table that holds text sentiment analysis results
         FilterExpression: "team_name = :t",

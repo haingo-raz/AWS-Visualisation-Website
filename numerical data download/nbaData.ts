@@ -25,7 +25,7 @@ interface FinalResult {
 //Balldontlie base Url
 const baseUrl: string = "https://www.balldontlie.io/api/v1/games?";
 
-let seasonStart = 2020;
+let seasonStart = 2015;
 let seasonEnd = 2021;
 
 //Retrieve match data 
@@ -52,9 +52,11 @@ async function getMatchStats(teamId: number): Promise<void> {
                 let timestamp: number = +moment(result.date).format("X");
 
                 //Save to dynamoDB table
-                saveNbaData(teamId, matchDate, teamName, timestamp, score, season);
+                //saveNbaData(teamId, matchDate, teamName, timestamp, score, season);
 
+                console.log(score);
             })
+
 
         } catch (error) {
             console.log(error);
@@ -62,19 +64,29 @@ async function getMatchStats(teamId: number): Promise<void> {
     }
 }
 
+getMatchStats(2);
 
 let teamIds: number[] = [
-   4, 
+   14, 
    5,
    11, 
    10, 
    2
 ]
 
-function getNumericalData(){
-    for (let x=0; x< teamIds.length; x++){
-      getMatchStats(teamIds[x]);
-    }
-}
 
-getNumericalData()
+
+// function getNumericalData(){
+//     for (let x=0; x< teamIds.length; x++){
+//       getMatchStats(teamIds[x])
+//     }
+// }
+
+// getNumericalData()
+
+
+//Los angeles lakers 14
+//Chicago Bulls 5
+//Houston Rockets 11
+//Golden state warriors10
+//Boston Celtics 2
