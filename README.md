@@ -1,46 +1,52 @@
-# Getting Started with Create React App
+# NBA Sentiment Analysis and Prediction
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![NBA Logo](https://i.imgur.com/9QnhVRc.png)
 
-## Available Scripts
+## Overview
 
-In the project directory, you can run:
+This project visualizes historical data, sentiment analysis, and prediction data for five NBA teams: Lakers, Celtics, Warriors, Rockets, and Bulls. The data is stored in AWS DynamoDB, and sentiment analysis and prediction models are built and deployed using Amazon SageMaker, Amazon Comprehend, and AWS Lambda. The front-end of the application is built using ReactJS.
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- Historical data visualization
+- Sentiment analysis for each team's tweets
+- Real-time prediction of each team's future score
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Data Collection
 
-### `npm test`
+We collected data for the five NBA teams from Twitter using the News API and the Balldontlie API.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Sentiment Analysis
 
-### `npm run build`
+We use Amazon Comprehend to perform sentiment analysis on each team's tweets. The results are displayed on a pie chart, with each slice representing the percentage of positive, negative, and neutral tweets.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+![Sentiment Analysis](https://i.imgur.com/hwZHeIm.png)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Prediction Model
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+We use Amazon SageMaker to train a logistic regression model on historical data for each team. The model predicts the probability of each team winning their next game. The results are displayed on a bar chart, with each bar representing the probability of each team winning.
 
-### `npm run eject`
+![Prediction Model](https://i.imgur.com/dFtNoz7.png)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Technologies Used
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- ReactJS
+- TypeScript
+- Python
+- AWS DynamoDB
+- Amazon SageMaker
+- Amazon Comprehend
+- AWS S3
+- AWS Lambda
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Getting Started
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+To run the project locally, clone the repository and install the dependencies using `npm install`. Then, run the project using `npm start`.
 
-## Learn More
+## Conclusion
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+This project demonstrates how AWS services can be used to collect, store, and analyze data in real-time. The sentiment analysis and prediction models provide valuable insights into each team's performance, and the visualizations make the data easy to understand and interpret.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Credits
+
+- NBA logo from [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:NBA_logo.svg)

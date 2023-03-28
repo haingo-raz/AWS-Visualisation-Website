@@ -30,7 +30,7 @@ module.exports.deleteConnectionId = async (connectionId) => {
 
 
 //Return News API sentiment analysis data of specified team for client
-/*module.exports.getSentiment = async (teamName) => {
+module.exports.getSentiment = async (teamName) => {
 
     //DynamoDB table parameters
     let params = {
@@ -43,7 +43,7 @@ module.exports.deleteConnectionId = async (connectionId) => {
 
     //returns all data items 
     return documentClient.scan(params).promise(); 
-};*/
+};
 
 
 

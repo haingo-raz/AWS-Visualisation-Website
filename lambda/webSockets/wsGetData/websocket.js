@@ -22,8 +22,12 @@ module.exports.getSendMessagePromises = async (message, domainName, stage) => {
     //call getScore() while passing team name
     let scoreObj = await db.getScore(message);
 
+    //call getSentiment() while passing team name
+    let sentimentObj = await db.getSentiment(message);
+
     //push score data inside object array 
     dataArray.push(scoreObj);
+    dataArray.push(sentimentObj);
 
     //Sending messages to clients
     let msgPromiseArray = clientIdArray.map( async item => {

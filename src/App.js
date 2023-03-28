@@ -1,14 +1,13 @@
 import React, {useState, useEffect} from 'react';
-import { Route, Routes, NavLink, Link } from 'react-router-dom';
 import './App.scss';
+import './components/MainApp/OptionPicker.scss';
+import './components/MainApp/MainApp.scss';
+import './components/MainApp/Prediction.scss';
+import './components/MainApp/SentimentAnalysis.scss';
+import './components/MainApp/Visualisation.scss';
 import Header from './components/Header/Header';
-import MainApp from './components/MainApp/MainApp';
 import { PieChart, Pie, Cell, ResponsiveContainer} from 'recharts';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-import { CustomizedHighScoreDot} from './Tools/Utilities';
-import { allTeamsSentimentAnalysis } from './Tools/Utilities';
-import { predictionData } from './Tools/Utilities';
-import { scoreData } from './Tools/Utilities';
 
 
 //open websocket connection
@@ -47,12 +46,14 @@ function App() {
         //Receive message back from server
         let data = JSON.parse(msg.data); 
 
+        //console.log(JSON.stringify(data));
+
         //get the nba score
         let nbaScore = data[0].Items;
     
-        console.log("Received data" + JSON.stringify(nbaScore)); //received
+        //console.log("Received data" + JSON.stringify(nbaScore)); //received
 
-        //handle nba data 
+        //filter data
         const newTeamScore = nbaScore.map((score) => {
             return { score: score.score, match_date: score.match_date };
         });
@@ -70,6 +71,30 @@ function App() {
         
 
         //handle sentiment data 
+        let sentimentResults = data[1].Items;
+
+        //filter to only team_name and sentiment type
+        const newSentimentResults = sentimentResults.map((sentiment) => {
+            return { team_name: sentiment.team_name, positive: sentiment.positive, negative: sentiment.negative, neutral: sentiment.neutral };
+        });
+
+        //Sentiment *1000
+
+        const teamSentimentAnalysis = newSentimentResults.reduce((result, item) => {
+            result[0].value += item.positive;
+            result[1].value += item.negative;
+            result[2].value += item.neutral;
+            return result;
+        }, [
+            { name: 'Positive', value: 0 },
+            { name: 'Negative', value: 0 },
+            { name: 'Neutral', value: 0 },
+          ])
+          .map(item => ({ ...item, value: Math.round(item.value / newSentimentResults.length * 1000) }));
+
+          
+        setSentimentData(teamSentimentAnalysis);
+
     }
 
     //case connection error
@@ -177,8 +202,8 @@ function App() {
             </div>     
           </div> */}
 
-          {/* Sentiment Analysis */}
-          {/* <div className='sentimentAnalysis'>
+        {/* Sentiment Analysis */}
+        <div className='sentimentAnalysis'>
             <h1 className='title'>Sentiment Analysis</h1>
 
            
@@ -190,12 +215,12 @@ function App() {
                                 data={sentimentData}
                                 cx="50%"
                                 cy="50%"
-                                labelLine={false}
-                                label={renderCustomizedLabel}
-                                //label
+                                labelLine={true}
+                                label
                                 outerRadius={80}
                                 fill="#8884d8"
                                 dataKey={sentimentData.value}
+                                nameKey={sentimentData.name}
                             >
                                 {sentimentData.map((entry, index) => (
                                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -205,10 +230,10 @@ function App() {
                         </PieChart>
                     </ResponsiveContainer>
                 </div>
-                <h3 className="teamName">Team name</h3>
+                <h3 className="teamName">{activeTeamOption}</h3>
                 <p className="graphDescription">Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur</p>
             </div> 
-          </div> */}
+          </div> 
 
         </div>
     </div>
@@ -223,17 +248,4 @@ export default App;
 const COLORS = ['#41b8d5', '#31356e', '#6ce5e8'];
 
 
-const RADIAN = Math.PI / 180;
 
-//sentiment analysis chart label
-const renderCustomizedLabel = (cx , cy, midAngle, innerRadius, outerRadius, percent, index) => {
-    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-    const x = cx + radius * Math.cos(-midAngle * RADIAN);
-    const y = cy + radius * Math.sin(-midAngle * RADIAN);
-
-    return (
-        <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
-            {`${(percent * 100).toFixed(0)}%`}
-        </text>
-  );
-};
