@@ -7,30 +7,43 @@ module.exports.getSendMessagePromises = async (message, domainName, stage) => {
 
     //Get connection IDs of connected clients
     let clientIdArray = (await db.getConnectionIds()).Items;
-    console.log("\nClient IDs:\n" + JSON.stringify(clientIdArray)); //code
+
+    //List connected client IDS
+    console.log("\nClient IDs:\n" + JSON.stringify(clientIdArray)); 
 
     //API Gateway Management class
     const apigwManagementApi = new AWS.ApiGatewayManagementApi({
         endpoint: domainName + '/' + stage
     });
 
+    //Object array to hold score data and sentiment data
+    let dataArray = [];
+
+    //call getScore() while passing team name
+    let scoreObj = await db.getScore(message);
+
+    //push score data inside object array 
+    dataArray.push(scoreObj);
+
     //Sending messages to clients
     let msgPromiseArray = clientIdArray.map( async item => {
+        
         try{
-            console.log("Sending message '" + JSON.stringify(message) + "' to: " + item.connectionId);
+            console.log("Sending message '" + JSON.stringify(dataArray) + "' to: " + item.connectionId);
 
             //Create parameters for API Gateway
             let apiMsg = {
-                ConnectionId: item.connectionId,
-                Data: JSON.stringify(message)
+                ConnectionId: item.connectionId, //change t
+                Data: JSON.stringify(dataArray)
             };
 
             //execution
             await apigwManagementApi.postToConnection(apiMsg).promise();
             //Print results
-            console.log("Message '" + message + "' sent to: " + item.connectionId);
+            console.log("Message '" + JSON.stringify(dataArray)  + "' sent to: " + item.connectionId);
         }
         catch(err){
+
             console.log("Failed to send message to: " + item.connectionId);
 
             //Delete connection ID from database

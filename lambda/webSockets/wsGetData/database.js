@@ -30,7 +30,7 @@ module.exports.deleteConnectionId = async (connectionId) => {
 
 
 //Return News API sentiment analysis data of specified team for client
-module.exports.getSentiment = async (teamName) => {
+/*module.exports.getSentiment = async (teamName) => {
 
     //DynamoDB table parameters
     let params = {
@@ -43,25 +43,29 @@ module.exports.getSentiment = async (teamName) => {
 
     //returns all data items 
     return documentClient.scan(params).promise(); 
-};
+};*/
 
 
 
 //Numerical data
 //Get each team historical data
-/*module.exports.getScore = async (teamName) => {
+module.exports.getScore = async(teamName) => {
 
+    //find all the items where the value of team_name is equal to the provided team_name
     let params = {
         TableName: "NBA", //dynamoDB table that holds each NBA team score
-        KeyConditionExpression: "team_name = :t",
+        FilterExpression: "team_name = :t",
         ExpressionAttributeValues: {
             ":t": teamName
-        }
+        },
     };
 
-    //query: identifies attributes to retrieve from the table
-    return documentClient.query(params).promise();   
-};*/
+    //log params
+    console.log("DynamoDB Params: " + JSON.stringify(params)); //received
+
+    //return table items
+    return documentClient.scan(params).promise();
+};
 
 
 

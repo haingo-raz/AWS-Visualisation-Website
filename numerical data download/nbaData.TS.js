@@ -72,7 +72,7 @@ function getMatchStats(teamId) {
                                         var timestamp = +moment(result.date).format("X");
                                         //Save to dynamoDB table
                                         (0, saveNbaData_1.saveNbaData)(teamId, matchDate, teamName, timestamp, score, season);
-                                        //console.log(score);
+                                        console.log(score);
                                     });
                                     return [3 /*break*/, 4];
                                 case 3:

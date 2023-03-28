@@ -1,7 +1,6 @@
-const dotenv = require('dotenv');
 const axios = require('axios');
 const moment = require('moment');
-import { saveNbaData } from "./saveNbaData";
+import { saveNbaData } from "./saveNbaData"; //database funtion
 
 //Interface that defines each team's details
 interface TeamInfo {
@@ -52,20 +51,17 @@ async function getMatchStats(teamId: number): Promise<void> {
                 let timestamp: number = +moment(result.date).format("X");
 
                 //Save to dynamoDB table
-                //saveNbaData(teamId, matchDate, teamName, timestamp, score, season);
+                saveNbaData(teamId, matchDate, teamName, timestamp, score, season);
 
-                console.log(score);
+                //console.log(score);
             })
-
-
         } catch (error) {
             console.log(error);
         }
     }
 }
 
-getMatchStats(2);
-
+//Ids of each team
 let teamIds: number[] = [
    14, 
    5,
@@ -75,18 +71,19 @@ let teamIds: number[] = [
 ]
 
 
+//function that will get score and trigger upload to dynamoDB
+function getNbaScoreData(){
+    for (let x=0; x< teamIds.length; x++){
+        getMatchStats(teamIds[x]);
+    }
+}
 
-// function getNumericalData(){
-//     for (let x=0; x< teamIds.length; x++){
-//       getMatchStats(teamIds[x])
-//     }
-// }
 
-// getNumericalData()
+getNbaScoreData();
 
 
 //Los angeles lakers 14
 //Chicago Bulls 5
 //Houston Rockets 11
-//Golden state warriors10
+//Golden state warriors 10
 //Boston Celtics 2

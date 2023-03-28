@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Route, Routes, NavLink, Link } from 'react-router-dom';
 import './App.scss';
 import Header from './components/Header/Header';
@@ -10,81 +10,75 @@ import { allTeamsSentimentAnalysis } from './Tools/Utilities';
 import { predictionData } from './Tools/Utilities';
 import { scoreData } from './Tools/Utilities';
 
+
+//open websocket connection
+let connection = new WebSocket("wss://13kc76hcsa.execute-api.us-east-1.amazonaws.com/prod");
+
 function App() {
 
-  const [activeTeamOption, setActiveTeamOption] = useState('All teams');
+  //selected team
+  const [activeTeamOption, setActiveTeamOption] = useState('Los Angeles Lakers');
+  //hold the score data of teams 
+  const [teamScores, setTeamScores] = useState([]); 
+  //hold the sentiment data of the teams
   const [sentimentData, setSentimentData] = useState([]);
 
-  //Web Socket handling 
-  //open websocket connection
-  let connection = new WebSocket("wss://13kc76hcsa.execute-api.us-east-1.amazonaws.com/prod");
+    //current team chosen
+    useEffect(() => {
+        console.log("Team state updated to:", activeTeamOption);
+    }, [activeTeamOption]);
 
-  //log event upon open connection 
-  connection.onopen = function (event) {
-      console.log("Connected: " + JSON.stringify(event));
-  };
 
-  //case connection error
-  connection.onerror = function (error) {
-      console.log("WebSocket Error: " + JSON.stringify(error));
-  }
+    //Web Socket handling
+    useEffect(() => {
 
-  //upon message receival from server
-  connection.onmessage = function (msg) {
+        //log event upon open connection 
+        connection.onopen = function (event) {
+            console.log("Connected: " + JSON.stringify(event));
+        } 
 
-      console.log(msg);
+    }, []);
 
-      let data = JSON.stringify(msg.data);
+    //upon message receival from server
+    connection.onmessage = function (msg) {
 
-      console.log("Received data" + data);
+        console.log(" Hello from server");
 
-  //     //update NBA graph
-  //     /*if (data.team_name == teamOption && 
-  //         (data.table_name === "NBA" || data.table_name === "all")) {
+        //Receive message back from server
+        let data = JSON.parse(msg.data); 
 
-  //         //create NBA visualisation   
-  //         getNbaLabels(data);
-  //     }*/
-
-      //console.log(activeTeamOption);
-
-      //Update sentiment data chart 
+        //get the nba score
+        let nbaScore = data[0].Items;
     
-        let sentimentData = data.sentiment_data;
-        let positiveData = sentimentData.positive;
-        let negativeData = sentimentData.negative;
-        let neutralData = sentimentData.neutral;
+        console.log("Received data" + JSON.stringify(nbaScore)); //error round here
 
-        console.log(sentimentData);
+        //handle nba data 
 
-        //Get sentiment data for selected team
-        const sentimentAnalysis = [
-            { name: 'Positive', value: 400 },
-            { name: 'Negative', value: 300 },
-            { name: 'Neutral', value: 300 }
-        ];
+        //handle predictions data 
+        
 
-        setSentimentData(sentimentAnalysis);
+        //handle sentiment data 
+    }
 
-        console.log(sentimentData);
+    //case connection error
+    connection.onerror = function (error) {
+        console.log("WebSocket Error: " + JSON.stringify(error));
     }
 
     //function called upon selecting a team 
     const handleOption = (teamOption) => {
+        //change team name display
+        setActiveTeamOption(teamOption);
 
-    //change team name display
-    setActiveTeamOption(teamOption);
-          
-    handleData('all'); //take data from all the table
-  }
+        handleData('all'); //take data from all the table
+    }
 
 
-  const handleData = (tableName) => {
+  const handleData = () => {
 
     let msgObject = {
       action: "getData", //API Gateway route
-      team_name: activeTeamOption,
-      table_name: tableName //Table name 
+      team_name: activeTeamOption //selected team
     };
 
     //send the message to the connection
@@ -102,12 +96,12 @@ function App() {
             
           {/* Option picker */}
           <div className="optionPicker">
-              <button className='teams' onClick={() => handleOption('All teams', 'all')}>All teams</button>
-              <button className='teams' onClick={() => handleOption('Los Angeles Lakers', 'all')}>Los Angeles Lakers</button>
-              <button className='teams' onClick={() => handleOption('Houston Rockets', 'all')}>Houston Rockets</button>
-              <button className='teams' onClick={() => handleOption('Chicago Bulls', 'all')}>Chicago Bull</button>
-              <button className='teams' onClick={() => handleOption('Golden State Warriors', 'all')}>Golden State Warriors</button>
-              <button className='teams' onClick={() => handleOption('Boston Celtics', 'all')}>Boston Celtics</button>
+              {/* <button className='teams' onClick={() => handleOption('All teams', 'all')}>All teams</button> */}
+              <button className='teams' onClick={() => handleOption('Los Angeles Lakers')}>Los Angeles Lakers</button>
+              <button className='teams' onClick={() => handleOption('Houston Rockets')}>Houston Rockets</button>
+              <button className='teams' onClick={() => handleOption('Chicago Bulls')}>Chicago Bull</button>
+              <button className='teams' onClick={() => handleOption('Golden State Warriors')}>Golden State Warriors</button>
+              <button className='teams' onClick={() => handleOption('Boston Celtics')}>Boston Celtics</button>
           </div>
 
         {/* Historical data visualisation */}
@@ -134,7 +128,6 @@ function App() {
                             <Tooltip />          
                             <Legend />          
                             <Line type="monotone" dataKey="score" stroke="#8884d8" dot={<CustomizedHighScoreDot />} />          
-                            {/* <Line type="monotone" dataKey="lowScore" stroke="#82ca9d" dot={<CustomizedLowestScoreDot />}/>         */}
                         </LineChart>      
                     </ResponsiveContainer>
                 </div>
@@ -143,7 +136,7 @@ function App() {
 
 
           {/* Prediction visualisation */}
-          <div className='prediction'>
+          {/* <div className='prediction'>
             <h1 className='title'>Prediction</h1>
             
             <div className="graphSection">
@@ -161,7 +154,7 @@ function App() {
                             }}
                             >          
                             <CartesianGrid strokeDasharray="3 3" />          
-                            <XAxis dataKey="year" />  {/*year?????*/}        
+                            <XAxis dataKey="year" />          
                             <YAxis />          
                             <Tooltip />          
                             <Legend />          
@@ -170,13 +163,13 @@ function App() {
                     </ResponsiveContainer>
                 </div>
             </div>     
-          </div>
+          </div> */}
 
           {/* Sentiment Analysis */}
-          <div className='sentimentAnalysis'>
+          {/* <div className='sentimentAnalysis'>
             <h1 className='title'>Sentiment Analysis</h1>
 
-            {/* Graph */}
+           
             <div className="graphSection">
                 <div className="graph">
                     <ResponsiveContainer width="100%" height="100%">
@@ -203,7 +196,7 @@ function App() {
                 <h3 className="teamName">Team name</h3>
                 <p className="graphDescription">Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur</p>
             </div> 
-          </div>
+          </div> */}
 
         </div>
     </div>
