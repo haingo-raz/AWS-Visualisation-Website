@@ -50,9 +50,21 @@ function App() {
         //get the nba score
         let nbaScore = data[0].Items;
     
-        console.log("Received data" + JSON.stringify(nbaScore)); //error round here
+        console.log("Received data" + JSON.stringify(nbaScore)); //received
 
         //handle nba data 
+        const newTeamScore = nbaScore.map((score) => {
+            return { score: score.score, match_date: score.match_date };
+        });
+
+        //Sort dates from old to recent
+        newTeamScore.sort((a, b) => {
+            const dateA = new Date(a.match_date.split("-").reverse().join("-"));
+            const dateB = new Date(b.match_date.split("-").reverse().join("-"));
+            return dateA - dateB;
+        });
+
+        setTeamScores(newTeamScore);
 
         //handle predictions data 
         
@@ -114,7 +126,7 @@ function App() {
                         <LineChart
                             width={500}
                             height={300}
-                            data={scoreData}
+                            data={teamScores}
                             margin={{
                                 top: 5,
                                 right: 30,
@@ -123,11 +135,11 @@ function App() {
                             }}
                             >          
                             <CartesianGrid strokeDasharray="3 3" />          
-                            <XAxis dataKey="matchDate" />          
+                            <XAxis dataKey="match_date" />          
                             <YAxis />          
                             <Tooltip />          
                             <Legend />          
-                            <Line type="monotone" dataKey="score" stroke="#8884d8" dot={<CustomizedHighScoreDot />} />          
+                            <Line type="monotone" dataKey="score" stroke="#8884d8"/>          
                         </LineChart>      
                     </ResponsiveContainer>
                 </div>
