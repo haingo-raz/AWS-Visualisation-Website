@@ -10,6 +10,9 @@ import { PieChart, Pie, Cell, ResponsiveContainer} from 'recharts';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
 
+import { predictionData } from './Tools/Utilities';
+
+
 //open websocket connection
 let connection = new WebSocket("wss://13kc76hcsa.execute-api.us-east-1.amazonaws.com/prod");
 
@@ -131,49 +134,49 @@ function App() {
         
         <div className='mainApp'>
             
-          {/* Option picker */}
-          <div className="optionPicker">
-              {/* <button className='teams' onClick={() => handleOption('All teams', 'all')}>All teams</button> */}
-              <button className='teams' onClick={() => handleOption('Los Angeles Lakers')}>Los Angeles Lakers</button>
-              <button className='teams' onClick={() => handleOption('Houston Rockets')}>Houston Rockets</button>
-              <button className='teams' onClick={() => handleOption('Chicago Bulls')}>Chicago Bull</button>
-              <button className='teams' onClick={() => handleOption('Golden State Warriors')}>Golden State Warriors</button>
-              <button className='teams' onClick={() => handleOption('Boston Celtics')}>Boston Celtics</button>
-          </div>
+            {/* Option picker */}
+            <div className="optionPicker">
+                {/* <button className='teams' onClick={() => handleOption('All teams', 'all')}>All teams</button> */}
+                <button className='teams' onClick={() => handleOption('Los Angeles Lakers')}>Los Angeles Lakers</button>
+                <button className='teams' onClick={() => handleOption('Houston Rockets')}>Houston Rockets</button>
+                <button className='teams' onClick={() => handleOption('Chicago Bulls')}>Chicago Bull</button>
+                <button className='teams' onClick={() => handleOption('Golden State Warriors')}>Golden State Warriors</button>
+                <button className='teams' onClick={() => handleOption('Boston Celtics')}>Boston Celtics</button>
+            </div>
 
-        {/* Historical data visualisation */}
-          <div className='visualisation'>
-            <h1 className='title'>Visualisation: <span>{activeTeamOption}</span></h1>
-            {/* Graph */}
-            <div className="graphSection">
-                <div className='graph'>
-                    <ResponsiveContainer width="100%" height="100%">        
-                        <LineChart
-                            width={500}
-                            height={300}
-                            data={teamScores}
-                            margin={{
-                                top: 5,
-                                right: 30,
-                                left: 20,
-                                bottom: 5,
-                            }}
-                            >          
-                            <CartesianGrid strokeDasharray="3 3" />          
-                            <XAxis dataKey="match_date" />          
-                            <YAxis />          
-                            <Tooltip />          
-                            <Legend />          
-                            <Line type="monotone" dataKey="score" stroke="#8884d8"/>          
-                        </LineChart>      
-                    </ResponsiveContainer>
-                </div>
-            </div>      
-          </div>  
+            {/* Historical data visualisation */}
+            <div className='visualisation'>
+                <h1 className='title'>Visualisation: <span>{activeTeamOption}</span></h1>
+                {/* Graph */}
+                <div className="graphSection">
+                    <div className='graph'>
+                        <ResponsiveContainer width="100%" height="100%">        
+                            <LineChart
+                                width={500}
+                                height={300}
+                                data={teamScores}
+                                margin={{
+                                    top: 5,
+                                    right: 30,
+                                    left: 20,
+                                    bottom: 5,
+                                }}
+                                >          
+                                <CartesianGrid strokeDasharray="3 3" />          
+                                <XAxis dataKey="match_date" />          
+                                <YAxis />          
+                                <Tooltip />          
+                                <Legend />          
+                                <Line type="monotone" dataKey="score" stroke="#8884d8"/>          
+                            </LineChart>      
+                        </ResponsiveContainer>
+                    </div>
+                </div>      
+            </div>  
 
 
-          {/* Prediction visualisation */}
-          {/* <div className='prediction'>
+            {/* Prediction visualisation */}
+            <div className='prediction'>
             <h1 className='title'>Prediction</h1>
             
             <div className="graphSection">
@@ -191,16 +194,16 @@ function App() {
                             }}
                             >          
                             <CartesianGrid strokeDasharray="3 3" />          
-                            <XAxis dataKey="year" />          
+                            <XAxis dataKey="matchDate" />          
                             <YAxis />          
                             <Tooltip />          
                             <Legend />          
-                            <Line type="monotone" dataKey="score" stroke="#8884d8" dot={<CustomizedHighScoreDot />} />                 
+                            <Line type="monotone" dataKey="score" stroke="#8884d8"/>                 
                         </LineChart>      
                     </ResponsiveContainer>
-                </div>
-            </div>     
-          </div> */}
+                    </div>
+                </div>     
+            </div> 
 
         {/* Sentiment Analysis */}
         <div className='sentimentAnalysis'>
@@ -211,6 +214,7 @@ function App() {
                 <div className="graph">
                     <ResponsiveContainer width="100%" height="100%">
                         <PieChart width={400} height={400}>
+                            <Legend verticalAlign="top" height={36}/>
                             <Pie
                                 data={sentimentData}
                                 cx="50%"
@@ -234,7 +238,6 @@ function App() {
                 <p className="graphDescription">Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur</p>
             </div> 
           </div> 
-
         </div>
     </div>
   );
@@ -243,9 +246,9 @@ function App() {
 export default App;
 
 
+//colors used on the sentiment analysis chart POSITIVE, NEGATIVE, NEUTRAL
+const COLORS = ['#6ce5e8','#DE3163', '#ccc'];
 
-//colors used on the sentiment analysis chart 
-const COLORS = ['#41b8d5', '#31356e', '#6ce5e8'];
 
 
 
