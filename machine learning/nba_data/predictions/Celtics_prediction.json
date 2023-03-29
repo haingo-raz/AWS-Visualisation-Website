@@ -1,6 +1,7 @@
 {
     "predictions": [
       {
+        "label": "Boston Celtics",
         "mean": [
           105.8446350098,
           111.737121582,

@@ -19,16 +19,27 @@ let connection = new WebSocket("wss://13kc76hcsa.execute-api.us-east-1.amazonaws
 function App() {
 
   //selected team
-  const [activeTeamOption, setActiveTeamOption] = useState('Los Angeles Lakers');
+  const [activeTeamOption, setActiveTeamOption] = useState('');
   //hold the score data of teams 
   const [teamScores, setTeamScores] = useState([]); 
   //hold the sentiment data of the teams
   const [sentimentData, setSentimentData] = useState([]);
+  //handle which button is set to active
+  const [activeButton, setActiveButton] = useState('');
+  //handle which section is shown on the website MainApp
+  const [showImage, setShowImage] = useState(
+    localStorage.getItem('showImage') !== 'false'
+  );
+
 
     //current team chosen
     useEffect(() => {
         console.log("Team state updated to:", activeTeamOption);
     }, [activeTeamOption]);
+
+    useEffect(() => {
+        localStorage.setItem('showImage', 'false');
+      }, [showImage]);
 
 
     //Web Socket handling
@@ -106,13 +117,14 @@ function App() {
     }
 
     //function called upon selecting a team 
-    const handleOption = (teamOption) => {
+    const handleOption = (buttonLabel) => {
         //change team name display
-        setActiveTeamOption(teamOption);
+        setActiveTeamOption(buttonLabel);
+        //set the active class 
+        setActiveButton(buttonLabel);
 
-        handleData('all'); //take data from all the table
+        setShowImage(false);
     }
-
 
   const handleData = () => {
 
@@ -122,10 +134,18 @@ function App() {
     };
 
     //send the message to the connection
-    connection.send(JSON.stringify(msgObject));
-
-    console.log("Message sent: " + JSON.stringify(msgObject));
+    if (connection.readyState === WebSocket.OPEN) {
+        connection.send(JSON.stringify(msgObject));
+        console.log("Message sent: " + JSON.stringify(msgObject));
+      } else {
+        console.log("WebSocket connection not open.");
+    }
   } 
+
+  //call the handleData() function everytime the team option is changed
+  useEffect(() => {
+    handleData();
+  }, [activeTeamOption]);
 
 
   return (
@@ -133,111 +153,126 @@ function App() {
         <Header/>
         
         <div className='mainApp'>
-            
+
             {/* Option picker */}
             <div className="optionPicker">
                 {/* <button className='teams' onClick={() => handleOption('All teams', 'all')}>All teams</button> */}
-                <button className='teams' onClick={() => handleOption('Los Angeles Lakers')}>Los Angeles Lakers</button>
-                <button className='teams' onClick={() => handleOption('Houston Rockets')}>Houston Rockets</button>
-                <button className='teams' onClick={() => handleOption('Chicago Bulls')}>Chicago Bull</button>
-                <button className='teams' onClick={() => handleOption('Golden State Warriors')}>Golden State Warriors</button>
-                <button className='teams' onClick={() => handleOption('Boston Celtics')}>Boston Celtics</button>
+                <button className={`teams ${activeButton === 'Los Angeles Lakers' ? 'active' : ''}`} id="1" onClick={() => handleOption('Los Angeles Lakers')}>Los Angeles Lakers</button>
+                <button className={`teams ${activeButton === 'Houston Rockets' ? 'active' : ''}`} id="2" onClick={() => handleOption('Houston Rockets')}>Houston Rockets</button>
+                <button className={`teams ${activeButton === 'Chicago Bulls' ? 'active' : ''}`} id="3" onClick={() => handleOption('Chicago Bulls')}>Chicago Bulls</button>
+                <button className={`teams ${activeButton === 'Golden State Warriors' ? 'active' : ''}`} id="4" onClick={() => handleOption('Golden State Warriors')}>Golden State Warriors</button>
+                <button className={`teams ${activeButton === 'Boston Celtics' ? 'active' : ''}`} id="5" onClick={() => handleOption('Boston Celtics')}>Boston Celtics</button>
             </div>
 
-            {/* Historical data visualisation */}
-            <div className='visualisation'>
-                <h1 className='title'>Visualisation: <span>{activeTeamOption}</span></h1>
-                {/* Graph */}
-                <div className="graphSection">
-                    <div className='graph'>
-                        <ResponsiveContainer width="100%" height="100%">        
-                            <LineChart
-                                width={500}
-                                height={300}
-                                data={teamScores}
-                                margin={{
-                                    top: 5,
-                                    right: 30,
-                                    left: 20,
-                                    bottom: 5,
-                                }}
-                                >          
-                                <CartesianGrid strokeDasharray="3 3" />          
-                                <XAxis dataKey="match_date" />          
-                                <YAxis />          
-                                <Tooltip />          
-                                <Legend />          
-                                <Line type="monotone" dataKey="score" stroke="#8884d8"/>          
-                            </LineChart>      
-                        </ResponsiveContainer>
+            {showImage? 
+                <>
+                    Click on any option above to show a visualisation dashboard.
+                    <div className='heroImage'>
+                        <img src='./assets/NBA.png' alt='NBA'/>
                     </div>
-                </div>      
-            </div>  
+                </>
+                :
+                <>
+                    
+
+                    {/* Historical data visualisation */}
+                    <div className='visualisation'>
+                        <h1 className='title'>Visualisation: <span>{activeTeamOption}</span></h1>
+                        {/* Graph */}
+                        <div className="graphSection">
+                            <div className='graph'>
+                                <ResponsiveContainer width="100%" height="100%">        
+                                    <LineChart
+                                        width={500}
+                                        height={300}
+                                        data={teamScores}
+                                        margin={{
+                                            top: 5,
+                                            right: 30,
+                                            left: 20,
+                                            bottom: 5,
+                                        }}
+                                        >          
+                                        <CartesianGrid strokeDasharray="3 3" />          
+                                        <XAxis dataKey="match_date" />          
+                                        <YAxis />          
+                                        <Tooltip />          
+                                        <Legend />          
+                                        <Line type="monotone" dataKey="score" stroke="#8884d8"/>          
+                                    </LineChart>      
+                                </ResponsiveContainer>
+                            </div>
+                        </div>      
+                    </div>  
 
 
-            {/* Prediction visualisation */}
-            <div className='prediction'>
-            <h1 className='title'>Prediction</h1>
+                    {/* Prediction visualisation */}
+                    <div className='prediction'>
+                    <h1 className='title'>Prediction</h1>
+                    
+                    <div className="graphSection">
+                        <div className='graph'>
+                            <ResponsiveContainer width="100%" height="100%">        
+                                <LineChart
+                                    width={500}
+                                    height={300}
+                                    data={predictionData}
+                                    margin={{
+                                        top: 5,
+                                        right: 30,
+                                        left: 20,
+                                        bottom: 5,
+                                    }}
+                                    >          
+                                    <CartesianGrid strokeDasharray="3 3" />          
+                                    <XAxis dataKey="matchDate" />          
+                                    <YAxis />          
+                                    <Tooltip />          
+                                    <Legend />          
+                                    <Line type="monotone" dataKey="score" stroke="#8884d8"/>                 
+                                </LineChart>      
+                            </ResponsiveContainer>
+                            </div>
+                        </div>     
+                    </div> 
+
+                    {/* Sentiment Analysis */}
+                    <div className='sentimentAnalysis'>
+                        <h1 className='title'>Sentiment Analysis</h1>
+
+                    
+                        <div className="graphSection">
+                            <div className="graph">
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <PieChart width={400} height={400}>
+                                        <Legend verticalAlign="top" height={36}/>
+                                        <Pie
+                                            data={sentimentData}
+                                            cx="50%"
+                                            cy="50%"
+                                            labelLine={true}
+                                            label
+                                            outerRadius={80}
+                                            fill="#8884d8"
+                                            dataKey={sentimentData.value}
+                                            nameKey={sentimentData.name}
+                                        >
+                                            {sentimentData.map((entry, index) => (
+                                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                            ))}
+                                        </Pie>
+                                        <Tooltip />
+                                    </PieChart>
+                                </ResponsiveContainer>
+                            </div>
+                            <h3 className="teamName">{activeTeamOption}</h3>
+                            <p className="graphDescription">Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur</p>
+                        </div> 
+                    </div> 
+                </>
+            }
             
-            <div className="graphSection">
-                <div className='graph'>
-                    <ResponsiveContainer width="100%" height="100%">        
-                        <LineChart
-                            width={500}
-                            height={300}
-                            data={predictionData}
-                            margin={{
-                                top: 5,
-                                right: 30,
-                                left: 20,
-                                bottom: 5,
-                            }}
-                            >          
-                            <CartesianGrid strokeDasharray="3 3" />          
-                            <XAxis dataKey="matchDate" />          
-                            <YAxis />          
-                            <Tooltip />          
-                            <Legend />          
-                            <Line type="monotone" dataKey="score" stroke="#8884d8"/>                 
-                        </LineChart>      
-                    </ResponsiveContainer>
-                    </div>
-                </div>     
-            </div> 
 
-        {/* Sentiment Analysis */}
-        <div className='sentimentAnalysis'>
-            <h1 className='title'>Sentiment Analysis</h1>
-
-           
-            <div className="graphSection">
-                <div className="graph">
-                    <ResponsiveContainer width="100%" height="100%">
-                        <PieChart width={400} height={400}>
-                            <Legend verticalAlign="top" height={36}/>
-                            <Pie
-                                data={sentimentData}
-                                cx="50%"
-                                cy="50%"
-                                labelLine={true}
-                                label
-                                outerRadius={80}
-                                fill="#8884d8"
-                                dataKey={sentimentData.value}
-                                nameKey={sentimentData.name}
-                            >
-                                {sentimentData.map((entry, index) => (
-                                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                ))}
-                            </Pie>
-                            <Tooltip />
-                        </PieChart>
-                    </ResponsiveContainer>
-                </div>
-                <h3 className="teamName">{activeTeamOption}</h3>
-                <p className="graphDescription">Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur</p>
-            </div> 
-          </div> 
         </div>
     </div>
   );

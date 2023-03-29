@@ -1,6 +1,7 @@
 {
    "predictions":[
       {
+         "label": "Chicago Bulls",
           "mean":[
              113.3399429321,
              116.7932891846,

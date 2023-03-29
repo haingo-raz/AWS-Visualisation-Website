@@ -1,6 +1,7 @@
 {
     "predictions": [
       {
+        "label": "Houston Rockets",
         "mean": [
           117.2560272217,
           116.5728683472,

@@ -1,6 +1,7 @@
 {
     "predictions": [
       {
+        "label": "Golden State Warriors",
         "mean": [
           111.1330108643,
           111.4946060181,

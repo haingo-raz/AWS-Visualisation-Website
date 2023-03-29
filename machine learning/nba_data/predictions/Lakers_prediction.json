@@ -1,6 +1,7 @@
 {
     "predictions":[
        {
+         "label": "Los Angeles Lakers",
           "mean":[
              110.6463470459,
              112.1007843018,
