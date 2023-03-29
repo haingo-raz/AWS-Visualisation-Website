@@ -26,7 +26,7 @@ interface Article {
   }
 
 // Define the API key and the base URL for the News API
-const apiKey: any = process.env.NEWS_API_KEY;
+const apiKey: any = "6ea3006639e24a29b8bcde031500168e"
 const baseUrl: string = "https://newsapi.org/v2";
 
 
@@ -45,10 +45,11 @@ async function getNewsData(teamName: string): Promise<any> {
 
       //save each response data to dynamoDB table
       articles.forEach((article) => {
-
         let timestamp: number = +moment(article.publishDate).format("X");
         saveArticle(id++, teamName, timestamp, article.publishedAt, article.description)
       })   
+
+      console.log("Successfully uploaded text data to cloud.")
 
     } catch (error) {
       console.error(error);
@@ -56,25 +57,10 @@ async function getNewsData(teamName: string): Promise<any> {
 }
 
 //Get news api data and push to News api table 
-getNewsData('Los Angeles Lakers').then((data) => console.log(data));
-getNewsData('Chicago Bulls').then((data) => console.log(data));
-getNewsData('Houston Rockets').then((data) => console.log(data));
-getNewsData('Golden State Warriors').then((data) => console.log(data));
-getNewsData('Boston Celtics').then((data) => console.log(data));
+getNewsData('Los Angeles Lakers')
+getNewsData('Chicago Bulls')
+getNewsData('Houston Rockets')
+getNewsData('Golden State Warriors')
+getNewsData('Boston Celtics')
 
 
-// let teamList: string[] = [
-//   'Los Angeles Lakers', 
-//   'Chicago Bulls',
-//   'Houston Rockets',
-//   'Golden State Warriors',
-//   'Boston Celtics'
-// ]
-
-// function getTextData(){
-//   for (let x=0; x< teamList.length; x++){
-//     getNewsData(teamList[x]);
-//   }
-// }
-
-// getTextData();

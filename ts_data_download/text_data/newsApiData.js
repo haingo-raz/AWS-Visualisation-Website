@@ -44,7 +44,7 @@ var saveNewsData_1 = require("./saveNewsData");
 //Copy variables in file into environment variables
 dotenv.config();
 // Define the API key and the base URL for the News API
-var apiKey = process.env.NEWS_API_KEY;
+var apiKey = "6ea3006639e24a29b8bcde031500168e";
 var baseUrl = "https://newsapi.org/v2";
 //Download and store news api data 
 function getNewsData(teamName) {
@@ -67,6 +67,7 @@ function getNewsData(teamName) {
                         var timestamp = +moment(article.publishDate).format("X");
                         (0, saveNewsData_1.saveArticle)(id++, teamName, timestamp, article.publishedAt, article.description);
                     });
+                    console.log("Successfully upload text data to cloud.");
                     return [3 /*break*/, 4];
                 case 3:
                     error_1 = _a.sent();
@@ -78,21 +79,8 @@ function getNewsData(teamName) {
     });
 }
 //Get news api data and push to News api table 
-getNewsData('Los Angeles Lakers').then(function (data) { return console.log(data); });
-getNewsData('Chicago Bulls').then(function (data) { return console.log(data); });
-getNewsData('Houston Rockets').then(function (data) { return console.log(data); });
-getNewsData('Golden State Warriors').then(function (data) { return console.log(data); });
-getNewsData('Boston Celtics').then(function (data) { return console.log(data); });
-// let teamList: string[] = [
-//   'Los Angeles Lakers', 
-//   'Chicago Bulls',
-//   'Houston Rockets',
-//   'Golden State Warriors',
-//   'Boston Celtics'
-// ]
-// function getTextData(){
-//   for (let x=0; x< teamList.length; x++){
-//     getNewsData(teamList[x]);
-//   }
-// }
-// getTextData();
+getNewsData('Los Angeles Lakers');
+getNewsData('Chicago Bulls');
+getNewsData('Houston Rockets');
+getNewsData('Golden State Warriors');
+getNewsData('Boston Celtics');
