@@ -44,11 +44,11 @@ We use Amazon SageMaker to train a logistic regression model on historical data 
 )
 
 ### Lakers score prediction against time
-![Lakers score prediction](https://raw.githubusercontent.com/haingo-raz/React-AWS-Visualisation-Website/master/website/public/assets/lakers_prediction.png
+![Lakers score prediction](https://raw.githubusercontent.com/haingo-raz/React-AWS-Visualisation-Website/master/website/public/assets/lakers_prediction.jpeg
 )
 
 ### Visualisation board for Houston Rockets
-![Houston Rockets Visualisation](https://raw.githubusercontent.com/haingo-raz/React-AWS-Visualisation-Website/master/website/public/assets/full-page_houston-rockets-visualisation.png
+![Houston Rockets Visualisation](https://raw.githubusercontent.com/haingo-raz/React-AWS-Visualisation-Website/master/website/public/assets/full-page-houston-rockets-visualisation.png
 )
 
 ## Credits
