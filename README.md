@@ -34,6 +34,23 @@ We use Amazon SageMaker to train a logistic regression model on historical data 
 - AWS S3
 - AWS Lambda
 
+## Screenshots
+### Homepage
+![Homepage](https://raw.githubusercontent.com/haingo-raz/React-AWS-Visualisation-Website/master/website/public/assets/homepage.png
+)
+
+### Lakers score visualisation against time
+![Lakers score](https://raw.githubusercontent.com/haingo-raz/React-AWS-Visualisation-Website/master/website/public/assets/Lakers-score-to-time.png
+)
+
+### Lakers score prediction against time
+![Lakers score prediction](https://raw.githubusercontent.com/haingo-raz/React-AWS-Visualisation-Website/master/website/public/assets/lakers_prediction.png
+)
+
+### Visualisation board for Houston Rockets
+![Houston Rockets Visualisation](https://raw.githubusercontent.com/haingo-raz/React-AWS-Visualisation-Website/master/website/public/assets/full-page_houston-rockets-visualisation.png
+)
+
 ## Credits
 
 - NBA logo from [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:NBA_logo.svg)
