@@ -9,15 +9,12 @@ import Header from './components/Header/Header';
 import { PieChart, Pie, Cell, ResponsiveContainer} from 'recharts';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
-
 import { predictionData } from './Tools/Utilities';
-
 
 //open websocket connection
 let connection = new WebSocket("wss://13kc76hcsa.execute-api.us-east-1.amazonaws.com/prod");
 
 function App() {
-
   //selected team
   const [activeTeamOption, setActiveTeamOption] = useState('');
   //hold the score data of teams 
@@ -31,7 +28,6 @@ function App() {
     localStorage.getItem('showImage') !== 'false'
   );
 
-
     //current team chosen
     useEffect(() => {
         console.log("Team state updated to:", activeTeamOption);
@@ -41,31 +37,22 @@ function App() {
         localStorage.setItem('showImage', 'false');
       }, [showImage]);
 
-
     //Web Socket handling
     useEffect(() => {
-
         //log event upon open connection 
         connection.onopen = function (event) {
             console.log("Connected: " + JSON.stringify(event));
         } 
-
     }, []);
 
     //upon message receival from server
     connection.onmessage = function (msg) {
-
         console.log(" Hello from server");
-
         //Receive message back from server
         let data = JSON.parse(msg.data); 
 
-        //console.log(JSON.stringify(data));
-
         //get the nba score
         let nbaScore = data[0].Items;
-    
-        //console.log("Received data" + JSON.stringify(nbaScore)); //received
 
         //filter data
         const newTeamScore = nbaScore.map((score) => {
@@ -105,8 +92,7 @@ function App() {
             { name: 'Neutral', value: 0 },
           ])
           .map(item => ({ ...item, value: Math.round(item.value / newSentimentResults.length * 1000) }));
-
-          
+      
         setSentimentData(teamSentimentAnalysis);
 
     }
@@ -122,7 +108,6 @@ function App() {
         setActiveTeamOption(buttonLabel);
         //set the active class 
         setActiveButton(buttonLabel);
-
         setShowImage(false);
     }
 
@@ -146,7 +131,6 @@ function App() {
   useEffect(() => {
     handleData();
   }, [activeTeamOption]);
-
 
   return (
     <div className="App">
@@ -172,9 +156,7 @@ function App() {
                     </div>
                 </>
                 :
-                <>
-                    
-
+                <> 
                     {/* Historical data visualisation */}
                     <div className='visualisation'>
                         <h1 className='title'>Visualisation: <span>{activeTeamOption}</span></h1>
@@ -239,8 +221,7 @@ function App() {
                     {/* Sentiment Analysis */}
                     <div className='sentimentAnalysis'>
                         <h1 className='title'>Sentiment Analysis</h1>
-
-                    
+                 
                         <div className="graphSection">
                             <div className="graph">
                                 <ResponsiveContainer width="100%" height="100%">
@@ -271,15 +252,12 @@ function App() {
                     </div> 
                 </>
             }
-            
-
         </div>
     </div>
   );
 }
 
 export default App;
-
 
 //colors used on the sentiment analysis chart POSITIVE, NEGATIVE, NEUTRAL
 const COLORS = ['#6ce5e8','#DE3163', '#ccc'];

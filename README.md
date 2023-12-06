@@ -25,6 +25,7 @@ We use Amazon SageMaker to train a logistic regression model on historical data 
 ## Technologies Used
 
 - ReactJS
+- Recharts
 - TypeScript
 - Python
 - AWS DynamoDB
@@ -32,14 +33,6 @@ We use Amazon SageMaker to train a logistic regression model on historical data 
 - Amazon Comprehend
 - AWS S3
 - AWS Lambda
-
-## Getting Started
-
-To run the project locally, clone the repository and install the dependencies using `npm install`. Then, run the project using `npm start`.
-
-## Conclusion
-
-This project demonstrates how AWS services can be used to collect, store, and analyze data in real-time. The sentiment analysis and prediction models provide valuable insights into each team's performance, and the visualizations make the data easy to understand and interpret.
 
 ## Credits
 
