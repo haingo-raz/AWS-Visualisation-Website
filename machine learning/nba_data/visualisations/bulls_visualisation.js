@@ -3,11 +3,11 @@ const bullsdata = require('./full dataset/Bulls.json');
 const bullspredictions = require('./predictions/Bulls_prediction.json');  //specific path to json file
 
 //Authentication details for Plotly
-const PLOTLY_USERNAME = 'haingoraz';
-const PLOTLY_KEY = 'Dnn34iOGI7ItFDnSruJF';
+const PLOTLY_USERNAME = '';
+const PLOTLY_KEY = '';
 
 //Student ID
-let studentID = 'M00752552';
+let studentID = '';
 
 //Initialize Plotly with user details.
 let plotly = require('plotly')(PLOTLY_USERNAME, PLOTLY_KEY);

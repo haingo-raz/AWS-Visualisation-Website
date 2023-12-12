@@ -6,7 +6,7 @@ import urllib.request
 def getTrainData():
 
     #Url to retrieve data from
-    syntheticDataUrl = "https://bmmkl4lj0d.execute-api.us-east-1.amazonaws.com/prod/M00752552"
+    syntheticDataUrl = ""
 
     #Retrieve the JSON data from URL
     response = urllib.request.urlopen(syntheticDataUrl)

@@ -5,7 +5,7 @@ import urllib.request
 def getLastData(): 
 
     # Define the URL to retrieve the JSON data from
-    url = "https://bmmkl4lj0d.execute-api.us-east-1.amazonaws.com/prod/M00752552"
+    url = ""
 
     # Retrieve the JSON data from the URL using urllib.request.urlopen()
     response = urllib.request.urlopen(url)

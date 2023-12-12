@@ -4,14 +4,14 @@ const axios = require('axios'); //Axios to download data
 const predictions = require('./secondPrediction.json');  //this
 
 //Student ID
-let studentID = 'M00752552';
+let studentID = '';
 
 //URL where student data is available
 let url = 'https://bmmkl4lj0d.execute-api.us-east-1.amazonaws.com/prod/';
 
 //Authentication details for Plotly
-const PLOTLY_USERNAME = 'haingoraz';
-const PLOTLY_KEY = 'Dnn34iOGI7ItFDnSruJF';
+const PLOTLY_USERNAME = '';
+const PLOTLY_KEY = '';
 
 //Initialize Plotly with user details.
 let plotly = require('plotly')(PLOTLY_USERNAME, PLOTLY_KEY);
