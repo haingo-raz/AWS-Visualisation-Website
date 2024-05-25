@@ -68,4 +68,3 @@ exports.handler = event => {
 
 //Comment this out if running on AWS Lambda
 exports.handler();
-

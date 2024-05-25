@@ -7,7 +7,6 @@ import json
 #Warriors 410 238
 
 def getTrainData():
-
     # Read from existing JSON file
     # Opening JSON file
     f = open('C:/Users/Haingo/Desktop/cw2 code/machine learning/nba data/full dataset/Celtics.json')
@@ -33,7 +32,6 @@ def getTrainData():
         json.dump(output_data, f)
 
     print("Successfully saved first 100 data points to .json")
-
 
 #Call function to get 400 data points
 getTrainData()

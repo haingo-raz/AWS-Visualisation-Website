@@ -13,7 +13,6 @@ module.exports.getConnectionIds = async () => {
     return documentClient.scan(params).promise();
 };
 
-
 //Deletes specified connection ID
 module.exports.deleteConnectionId = async (connectionId) => {
     console.log("Deleting connection Id: " + connectionId);
@@ -26,7 +25,6 @@ module.exports.deleteConnectionId = async (connectionId) => {
     };
     return documentClient.delete(params).promise();
 };
-
 
 
 //Return News API sentiment analysis data of specified team for client
@@ -66,20 +64,3 @@ module.exports.getScore = async(teamName) => {
     //return table items
     return documentClient.scan(params).promise();
 };
-
-
-
-//Return nba score prediciton data for client
-/*module.exports.getPredictions = async (teamName) => {
-
-    //DynamoDB parameters
-    let params = {
-        TableName: "scorePrediction", //dynamoDB table that holds score preditions
-        KeyConditionExpression: "team_name = :t",
-        ExpressionAttributeValues: {
-            ":t": teamName
-        }
-    };
-
-    return documentClient.query(params).promise(); //query: identifies attributes to retrieve from the table
-}*/

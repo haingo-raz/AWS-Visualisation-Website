@@ -1,7 +1,6 @@
 import json
 
 def getTrainData():
-
     # Read from existing JSON file
     # Opening JSON file
     f = open('C:/Users/Haingo/Desktop/cw2 code/machine learning/nba data/full dataset/Warriors.json')

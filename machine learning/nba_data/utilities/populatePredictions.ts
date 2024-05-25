@@ -64,5 +64,3 @@ async function populatePredictions(): Promise<void> {
 
 //call populate predictions function 
 populatePredictions()
-
-

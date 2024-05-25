@@ -8,7 +8,6 @@ let stage = "prod";
 
 //CUSTOM CHANGE
 exports.handler = async (event) => {
-
     try{
         //Receive team name from client
         let teamName = JSON.parse(event.body).team_name;
@@ -32,4 +31,3 @@ exports.handler = async (event) => {
 
     return { statusCode: 200, body: "Data sent successfully." };
 };
-

@@ -261,7 +261,3 @@ export default App;
 
 //colors used on the sentiment analysis chart POSITIVE, NEGATIVE, NEUTRAL
 const COLORS = ['#6ce5e8','#DE3163', '#ccc'];
-
-
-
-

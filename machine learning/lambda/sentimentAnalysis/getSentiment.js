@@ -2,7 +2,7 @@ let AWS = require("aws-sdk");
 
 //Create dynamoDB instance
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
-//Create instance of Comprehend
+//Create an instance of Comprehend
 let comprehend = new AWS.Comprehend();
 
 exports.handler = async (event) => {
@@ -46,7 +46,6 @@ exports.handler = async (event) => {
                 }
             };
     
-       
             result = await dynamoDB.put(params).promise();
             console.log(JSON.stringify(result));
             console.log("Sentiment analysis stored");

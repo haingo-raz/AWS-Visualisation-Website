@@ -16,7 +16,7 @@ interface Article {
     urlToImage: string | null;
     publishedAt: string;
     content: string | null;
-  }
+}
   
   //interface for desired response
   interface NewsApiResponse {
@@ -62,5 +62,3 @@ getNewsData('Chicago Bulls')
 getNewsData('Houston Rockets')
 getNewsData('Golden State Warriors')
 getNewsData('Boston Celtics')
-
-

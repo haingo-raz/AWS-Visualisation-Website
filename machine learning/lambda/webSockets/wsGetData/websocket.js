@@ -69,5 +69,3 @@ module.exports.getSendMessagePromises = async (message, domainName, stage) => {
 
     return msgPromiseArray;
 };
-
-
