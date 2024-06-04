@@ -44,7 +44,7 @@ var saveNewsData_1 = require("./saveNewsData");
 //Copy variables in file into environment variables
 dotenv.config();
 // Define the API key and the base URL for the News API
-var apiKey = "6ea3006639e24a29b8bcde031500168e";
+var apiKey = process.env.API_KEY;
 var baseUrl = "https://newsapi.org/v2";
 //Download and store news api data 
 function getNewsData(teamName) {

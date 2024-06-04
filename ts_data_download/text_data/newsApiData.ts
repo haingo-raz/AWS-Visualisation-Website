@@ -26,7 +26,7 @@ interface Article {
   }
 
 // Define the API key and the base URL for the News API
-const apiKey: any = "6ea3006639e24a29b8bcde031500168e"
+const apiKey: any = process.env.NEWS_API_KEY;
 const baseUrl: string = "https://newsapi.org/v2";
 
 
